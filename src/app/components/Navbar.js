@@ -1,10 +1,13 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const session = useSession();
+  console.log("session", session?.data?.user?.email);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -88,20 +91,29 @@ const Navbar = () => {
               </Link>
             </div>
           </div>
-          <div className="flex items-center">
+          {!session?.data?.user ? (
+            <div className="flex items-center">
+              <Link
+                href="/login"
+                className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signin"
+                className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
+              >
+                Sign In
+              </Link>
+            </div>
+          ) : (
             <Link
-              href="/login"
-              className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
-            >
-              Login
-            </Link>
-            <Link
-              href="/signin"
+              href="/"
               className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
             >
-              Sign In
+              Logout
             </Link>
-          </div>
+          )}
         </div>
       </div>
       {/* Mobile Menu */}
@@ -132,18 +144,29 @@ const Navbar = () => {
             >
               Contact
             </Link>
-            <Link
-              href="/login"
-              className="text-gray-800 hover:text-gray-600 block px-3 py-2 rounded-md text-base font-medium"
-            >
-              Login
-            </Link>
-            <Link
-              href="/signin"
-              className="bg-blue-500 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-600"
-            >
-              Sign In
-            </Link>
+            {!session?.data?.user ? (
+              <div className="flex items-center">
+                <Link
+                  href="/login"
+                  className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signin"
+                  className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
+                >
+                  Sign In
+                </Link>
+              </div>
+            ) : (
+              <Link
+                href="/"
+                className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
+              >
+                Logout
+              </Link>
+            )}
           </div>
         </div>
       )}
