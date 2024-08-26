@@ -5,6 +5,7 @@ export const authOptions = {
   secret: process.env.NEXT_PUBLIC_AUTH_SECRET,
   session: {
     strategy: "jwt",
+    maxAge: 15 * 24 * 60 * 60, // 15 days
   },
   providers: [
     CredentialsProvider({
@@ -38,14 +39,28 @@ export const authOptions = {
       },
     }),
   ],
+
+  callbacks: {
+    async jwt({ token, account, user }) {
+      if (account) {
+        token.type = user.type;
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      session.user.type = token.type;
+      return session;
+    },
+  },
 };
 
 const handler = nextAuth(authOptions);
 
 const users = [
-  { id: 1, email: "a@gmail.com" },
-  { id: 2, email: "b@gmail.com" },
-  { id: 3, email: "c@gmail.com" },
+  { id: 1, email: "a@gmail.com", name: "amin", type: "user" },
+  { id: 2, email: "b@gmail.com", name: "babul", type: "admin" },
+  { id: 3, email: "m@gmail.com", name: "chunnu", type: "moderator" },
 ];
 
 export { handler as GET, handler as POST };

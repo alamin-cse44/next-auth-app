@@ -1,13 +1,13 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const session = useSession();
-  console.log("session", session?.data?.user?.email);
+  console.log("session", session);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -78,10 +78,10 @@ const Navbar = () => {
                 About
               </Link>
               <Link
-                href="/services"
+                href="/dashboard"
                 className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
               >
-                Services
+                Dashboard
               </Link>
               <Link
                 href="/contact"
@@ -100,19 +100,25 @@ const Navbar = () => {
                 Login
               </Link>
               <Link
-                href="/signin"
+                href="api/auth/signin"
                 className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
               >
                 Sign In
               </Link>
             </div>
           ) : (
-            <Link
-              href="/"
-              className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
-            >
-              Logout
-            </Link>
+            <div className="flex items-center">
+              <p>
+                {session.data.user.name} - {session.data.user.type}
+              </p>
+              <Link
+                onClick={() => signOut()}
+                href="/"
+                className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
+              >
+                Logout
+              </Link>
+            </div>
           )}
         </div>
       </div>
@@ -133,10 +139,10 @@ const Navbar = () => {
               About
             </Link>
             <Link
-              href="/services"
+              href="/dashboard"
               className="text-gray-800 hover:text-gray-600 block px-3 py-2 rounded-md text-base font-medium"
             >
-              Services
+              Dashboard
             </Link>
             <Link
               href="/contact"
@@ -161,6 +167,7 @@ const Navbar = () => {
               </div>
             ) : (
               <Link
+                onClick={() => signOut()}
                 href="/"
                 className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
               >
