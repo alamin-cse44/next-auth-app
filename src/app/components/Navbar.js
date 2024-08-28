@@ -94,16 +94,16 @@ const Navbar = () => {
           {!session?.data?.user ? (
             <div className="flex items-center">
               <Link
-                href="/login"
+                href="api/auth/signin"
                 className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Login
               </Link>
               <Link
-                href="api/auth/signin"
+                href="api/auth/signup"
                 className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
               >
-                Sign In
+                Sign Up
               </Link>
             </div>
           ) : (
@@ -153,16 +153,16 @@ const Navbar = () => {
             {!session?.data?.user ? (
               <div className="flex items-center">
                 <Link
-                  href="/login"
+                  href="/api/auth/signin"
                   className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Login
                 </Link>
                 <Link
-                  href="/signin"
+                  href="api/auth/signup"
                   className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
                 >
-                  Sign In
+                  Sign Up
                 </Link>
               </div>
             ) : (
