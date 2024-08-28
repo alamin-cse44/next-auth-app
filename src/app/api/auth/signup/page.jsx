@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 import Link from "next/link";
+import SocialAppLogin from "@/app/components/SocialAppLogin";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -64,7 +65,7 @@ const Page = () => {
         className="bg-white p-8 rounded shadow-md max-w-md mx-auto justify-center "
       >
         {/* <SocialAppLogin /> */}
-        <div className="text-center my-4">or</div>
+        {/* <div className="text-center my-4">or</div> */}
         <div className="mb-4">
           <label htmlFor="name" className="block mb-2">
             Your name
