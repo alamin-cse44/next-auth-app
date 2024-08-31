@@ -76,8 +76,7 @@ const Page = () => {
           onSubmit={handleSubmit(handleSignup)}
           className="bg-white p-8 rounded shadow-md max-w-md mx-auto justify-center border-2"
         >
-          {/* <SocialAppLogin /> */}
-          {/* <div className="text-center my-4">or</div> */}
+          <h2 className="font-bold text-4xl mb-8 text-center">Sign Up</h2>
           <div className="mb-4">
             <label htmlFor="name" className="block mb-2">
               Your name
@@ -177,19 +176,14 @@ const Page = () => {
             </label>
             {errors.terms && <p className="text-red-500 text-sm mt-1">{errors.terms.message}</p>}
           </div> */}
-          <button
-            type="submit"
-            className="w-full btn btn-primary"
-          >
+          <button type="submit" className="w-full btn btn-primary">
             Create an account
           </button>
-          <div className="mt-3 flex items-center justify-center space-x-3 ">
-            <button className="btn btn-circle"><FcGoogle size={20}/></button>
-            <button className="btn btn-circle"><FaGithub size={20}/></button>
-          </div>
+          <p className="text-center my-4">Or, Sign in with</p>
+          <SocialAppLogin />
           <div className="text-center mt-4">
             Already have an account?{" "}
-            <Link href="api/auth/login" className="text-primary font-bold">
+            <Link href="login" className="text-primary font-bold">
               Sign in here
             </Link>
           </div>

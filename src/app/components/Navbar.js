@@ -105,42 +105,35 @@ const Navbar = () => {
                 Appointment
               </button>
             </Link>
+            {!session?.data?.user ? (
+              <div className="flex items-center">
+                {/* <Link
+                  href="api/auth/signin"
+                  className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Login
+                </Link> */}
+                <Link href="signup">
+                  <button className="btn ml-4 bg-blue-500 text-white  rounded-md text-sm font-medium hover:bg-blue-600">
+                    Sign Up
+                  </button>
+                </Link>
+              </div>
+            ) : (
+              <div className="flex items-center">
+                <p>
+                  {session.data.user.name} - {session.data.user.type}
+                </p>
+                <Link
+                  onClick={() => signOut()}
+                  href="/"
+                  className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
+                >
+                  Logout
+                </Link>
+              </div>
+            )}
           </div>
-          {/* {!session?.data?.user ? (
-            <div className="flex items-center">
-              <Link
-                href="api/auth/signin"
-                className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Login
-              </Link>
-              <Link
-                href="api/auth/signup"
-                className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
-              >
-                Sign Up
-              </Link>
-              <Link
-                href="api/auth/signup"
-                className="ml-4 text-primary btn btn-outline btn-primary px-3  rounded-md text-sm font-medium"
-              >
-                Appointment
-              </Link>
-            </div>
-          ) : (
-            <div className="flex items-center">
-              <p>
-                {session.data.user.name} - {session.data.user.type}
-              </p>
-              <Link
-                onClick={() => signOut()}
-                href="/"
-                className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
-              >
-                Logout
-              </Link>
-            </div>
-          )} */}
         </div>
       </div>
       {/* Mobile Menu */}

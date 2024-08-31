@@ -1,24 +1,22 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 const SocialAppLogin = () => {
   const router = useRouter();
 
-  const handleGoogleSignIn = () => {
-    
-  };
+  const handleGoogleSignIn = () => {};
 
-  const handleGithubSignIn = () => {
-    
-  };
+  const handleGithubSignIn = () => {};
   return (
-    <div className="flex justify-between mb-4">
-      <button onClick={handleGoogleSignIn} type="button" className="w-1/2 bg-red-600 text-white py-2 rounded mr-2">
-        Sign up with Google
+    <div className="flex items-center justify-center space-x-3 ">
+      <button className="btn btn-circle">
+        <FcGoogle size={20} />
       </button>
-      <button onClick={handleGithubSignIn} type="button" className="w-1/2 bg-black text-white py-2 rounded ml-2">
-        Sign up with GitHub
+      <button className="btn btn-circle">
+        <FaGithub size={20} />
       </button>
     </div>
   );

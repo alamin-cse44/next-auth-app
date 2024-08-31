@@ -9,8 +9,6 @@ import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 import Link from "next/link";
 import SocialAppLogin from "@/app/components/SocialAppLogin";
 import Image from "next/image";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -45,7 +43,7 @@ const Page = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const handleSignup = async (data) => {
+  const handleLogin = async (data) => {
     const newUser = {
       name: data.name,
       email: data.email,
@@ -54,12 +52,12 @@ const Page = () => {
       image: data.file,
     };
 
-    const res = await fetch("http://localhost:3000/api/auth/signup/new-user", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newUser),
-    });
-    console.log("Signup form submitted", res);
+    // const res = await fetch("http://localhost:3000/api/auth/signup/new-user", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(newUser),
+    // });
+    // console.log("Signup form submitted", res);
   };
   return (
     <div className="grid lg:grid-cols-2 mt-2 justify-center items-center container mx-auto">
@@ -73,25 +71,10 @@ const Page = () => {
       </div>
       <div className="">
         <form
-          onSubmit={handleSubmit(handleSignup)}
-          className="bg-white p-8 rounded shadow-md max-w-md mx-auto justify-center border-2"
+          onSubmit={handleSubmit(handleLogin)}
+          className="bg-white p-8  rounded shadow-md max-w-md mx-auto justify-center border-2"
         >
-          {/* <SocialAppLogin /> */}
-          {/* <div className="text-center my-4">or</div> */}
-          <div className="mb-4">
-            <label htmlFor="name" className="block mb-2">
-              Your name
-            </label>
-            <input
-              type="text"
-              id="name"
-              {...register("name")}
-              className="w-full p-2 border rounded"
-            />
-            {errors.name && (
-              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-            )}
-          </div>
+          <h2 className="font-bold text-4xl mb-8 text-center">Login</h2>
           <div className="mb-4">
             <label htmlFor="email" className="block mb-2">
               Your email
@@ -108,24 +91,7 @@ const Page = () => {
               </p>
             )}
           </div>
-          <div className="mb-4">
-            <label htmlFor="type" className="block mb-2">
-              User Type
-            </label>
-            <select
-              id="type"
-              {...register("type")}
-              className="w-full p-2 border rounded"
-            >
-              <option value="">Choose user type</option>
-              <option value="admin">Admin</option>
-              <option value="moderator">Moderator</option>
-              <option value="member">Member</option>
-            </select>
-            {errors.type && (
-              <p className="text-red-500 text-sm mt-1">{errors.type.message}</p>
-            )}
-          </div>
+
           <div className="mb-4 relative">
             <label htmlFor="password" className="block mb-2">
               Password
@@ -155,42 +121,16 @@ const Page = () => {
               </p>
             )}
           </div>
-          <div className="mb-4 relative">
-            <label htmlFor="file" className="block mb-2">
-              Upload your picture
-            </label>
-            <input
-              id="file"
-              name="file"
-              type="file"
-              {...register("file")}
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            />
-            {errors.file && (
-              <p className="text-red-500 text-xs">{errors.file.message}</p>
-            )}
-          </div>
-          {/* <div className="mb-4">
-            <label className="flex items-center">
-              <input type="checkbox" {...register('terms')} className="mr-2" />
-              By signing up, you are creating an account, and you agree to the Terms of Use and Privacy Policy.
-            </label>
-            {errors.terms && <p className="text-red-500 text-sm mt-1">{errors.terms.message}</p>}
-          </div> */}
-          <button
-            type="submit"
-            className="w-full btn btn-primary"
-          >
-            Create an account
+
+          <button type="submit" className="w-full btn btn-primary">
+            Sign in
           </button>
-          <div className="mt-3 flex items-center justify-center space-x-3 ">
-            <button className="btn btn-circle"><FcGoogle size={20}/></button>
-            <button className="btn btn-circle"><FaGithub size={20}/></button>
-          </div>
+          <p className="text-center my-4">Or, Sign in with</p>
+          <SocialAppLogin />
           <div className="text-center mt-4">
-            Already have an account?{" "}
-            <Link href="api/auth/login" className="text-primary font-bold">
-              Sign in here
+            Have not an account?{" "}
+            <Link href="api/auth/signup" className="text-primary font-bold">
+              Sign up here
             </Link>
           </div>
         </form>
