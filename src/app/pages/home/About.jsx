@@ -3,7 +3,7 @@ import React from "react";
 
 const About = () => {
   return (
-    <div className="grid lg:grid-cols-2 gap-4 container mx-auto mt-20">
+    <section className="grid lg:grid-cols-2 gap-4 container mx-auto mt-20">
       <div className="relative">
         <Image
           src={"/assets/images/about_us/person.jpg"}
@@ -35,7 +35,7 @@ const About = () => {
           <button className="btn btn-primary">Get More Info</button>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

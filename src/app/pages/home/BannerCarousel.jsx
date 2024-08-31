@@ -30,7 +30,7 @@ const BannerCarousel = () => {
         >
           {banner.map((item, index) => {
             return (
-              <div className="relative w-full h-[90vh] rounded-lg">
+              <div key={index} className="relative w-full h-[90vh] rounded-lg">
                 <Image
                   src={`/assets/images/banner/${index + 1}.jpg`}
                   alt="Slide 1"
