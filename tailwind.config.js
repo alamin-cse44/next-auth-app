@@ -19,11 +19,19 @@ module.exports = {
     themes: [
       {
         mytheme: {
-          "primary": "#a991f7",
-          "secondary": "#f6d860",
+          ...require("daisyui/src/theming/themes")["ligt"],
+          "primary": "#FF3811",
+          "secondary": "#fff",
           "accent": "#37cdbe",
           "neutral": "#3d4451",
           "base-100": "#ffffff",
+
+          ".btn-primary": {
+            "color": "#fff",
+          },
+          ".btn-outline.btn-primary:hover": {
+            "color": "#fff"
+          }
         },
       },
       "dark",

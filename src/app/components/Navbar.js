@@ -1,8 +1,10 @@
 "use client";
 
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { IoCartOutline } from "react-icons/io5";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,9 +16,9 @@ const Navbar = () => {
   };
   return (
     <nav className="bg-white shadow-md ">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+      <div className="max-w-7xl container mx-auto sm:px-0 px-3 ">
         <div className="flex items-center justify-between h-16">
-          <div className="flex">
+          <div className="flex items-center">
             <div className="-ml-2 mr-2 flex items-center md:hidden">
               <button
                 onClick={toggleMenu}
@@ -61,37 +63,50 @@ const Navbar = () => {
             </div>
             <div className="flex-shrink-0 flex items-center">
               <Link href="/" className="text-xl font-bold">
-                Logo
-              </Link>
-            </div>
-            <div className="hidden md:ml-6 md:flex md:space-x-8">
-              <Link
-                href="/"
-                className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Home
-              </Link>
-              <Link
-                href="/about"
-                className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                About
-              </Link>
-              <Link
-                href="/dashboard"
-                className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Dashboard
-              </Link>
-              <Link
-                href="/contact"
-                className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Contact
+                <Image
+                  src="/assets/logo.svg"
+                  alt="logo"
+                  height={60}
+                  width={60}
+                />
               </Link>
             </div>
           </div>
-          {!session?.data?.user ? (
+          <div className="hidden md:ml-6 md:flex md:space-x-8">
+            <Link
+              href="/"
+              className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Home
+            </Link>
+            <Link
+              href="/about"
+              className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
+            >
+              About
+            </Link>
+            <Link
+              href="/dashboard"
+              className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="/contact"
+              className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Contact
+            </Link>
+          </div>
+          <div className="flex items-center gap-4 cursor-pointer">
+            <IoCartOutline size={25} />
+            <Link href="api/auth/signup">
+              <button className="btn btn-primary btn-outline rounded-md btn-md">
+                Appointment
+              </button>
+            </Link>
+          </div>
+          {/* {!session?.data?.user ? (
             <div className="flex items-center">
               <Link
                 href="api/auth/signin"
@@ -104,6 +119,12 @@ const Navbar = () => {
                 className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
               >
                 Sign Up
+              </Link>
+              <Link
+                href="api/auth/signup"
+                className="ml-4 text-primary btn btn-outline btn-primary px-3  rounded-md text-sm font-medium"
+              >
+                Appointment
               </Link>
             </div>
           ) : (
@@ -119,7 +140,7 @@ const Navbar = () => {
                 Logout
               </Link>
             </div>
-          )}
+          )} */}
         </div>
       </div>
       {/* Mobile Menu */}
@@ -150,7 +171,7 @@ const Navbar = () => {
             >
               Contact
             </Link>
-            {!session?.data?.user ? (
+            {/* {!session?.data?.user ? (
               <div className="flex items-center">
                 <Link
                   href="/api/auth/signin"
@@ -173,7 +194,7 @@ const Navbar = () => {
               >
                 Logout
               </Link>
-            )}
+            )} */}
           </div>
         </div>
       )}
