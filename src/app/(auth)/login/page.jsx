@@ -9,14 +9,13 @@ import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 import Link from "next/link";
 import SocialAppLogin from "@/app/components/SocialAppLogin";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
 
 const schema = yup.object().shape({
-  name: yup.string().required("Name is required"),
   email: yup
     .string()
     .email("Invalid email format")
     .required("Email is required"),
-  type: yup.string().required("User type is required"),
   password: yup
     .string()
     .min(6, "Password must be 6 characters or longer")
@@ -25,10 +24,6 @@ const schema = yup.object().shape({
       "Password should be 6 or longer and contain upper, lower, special character, and number"
     )
     .required("Password is required"),
-  file: yup.mixed().required("File is required"),
-  terms: yup
-    .boolean()
-    .oneOf([true], "You must accept the terms and conditions"),
 });
 
 const Page = () => {
@@ -44,20 +39,17 @@ const Page = () => {
     resolver: yupResolver(schema),
   });
   const handleLogin = async (data) => {
-    const newUser = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      type: data.type,
-      image: data.file,
-    };
-
-    // const res = await fetch("http://localhost:3000/api/auth/signup/new-user", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(newUser),
-    // });
-    // console.log("Signup form submitted", res);
+    const email = data.email;
+    const password = data.password;
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    if(res.status === 200){
+      router.push("/");
+    }
+    // console.log("login res ", res);
   };
   return (
     <div className="grid lg:grid-cols-2 mt-2 justify-center items-center container mx-auto">
@@ -67,6 +59,7 @@ const Page = () => {
           className="rounded-lg"
           height={"500"}
           width={"460"}
+          alt="login"
         />
       </div>
       <div className="">

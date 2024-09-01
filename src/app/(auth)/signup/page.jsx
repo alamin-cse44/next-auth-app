@@ -69,6 +69,7 @@ const Page = () => {
           className="rounded-lg"
           height={"500"}
           width={"460"}
+          alt="signup"
         />
       </div>
       <div className="">

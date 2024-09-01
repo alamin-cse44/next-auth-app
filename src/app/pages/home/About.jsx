@@ -11,12 +11,14 @@ const About = () => {
             className="rounded-lg"
             height={"473"}
             width={"460"}
+            alt="person"
           />
           <Image
             src={"/assets/images/about_us/parts.jpg"}
             className="rounded-lg absolute left-40 top-40 border-8 border-white hidden lg:block"
             height={"330"}
             width={"330"}
+            alt="parts"
           />
         </div>
         <div className="mt-20 sm:mt-0 flex flex-col gap-4">

@@ -127,9 +127,8 @@ const Navbar = () => {
                 <Link
                   onClick={() => signOut()}
                   href="/"
-                  className="ml-4 bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600"
                 >
-                  Logout
+                  <button className="btn btn-primary">Logout</button>
                 </Link>
               </div>
             )}

@@ -2,6 +2,7 @@ import connectDB from "@/lib/connectDB";
 import nextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import bcrypt from "bcrypt";
 
 export const authOptions = {
   secret: process.env.NEXT_PUBLIC_AUTH_SECRET,
@@ -13,34 +14,38 @@ export const authOptions = {
     CredentialsProvider({
       credentials: {
         email: {
-          label: "Email address",
-          type: "email",
-          required: true,
-          placeholder: "Enter your email",
+          // label: "Email address",
+          // type: "email",
+          // required: true,
+          // placeholder: "Enter your email",
         },
         password: {
-          label: "Password",
-          type: "password",
-          required: true,
-          placeholder: "Enter your password",
+          // label: "Password",
+          // type: "password",
+          // required: true,
+          // placeholder: "Enter your password",
         },
       },
       async authorize(credentials) {
         const { email, password } = credentials;
-        if (!credentials) {
+        if (!email || !password) {
           return null;
         }
-        if (email) {
-          // const currentUser = users.find((user) => user.email === email);
-          const db = await connectDB();
-          const currentUser = await db.collection("users").findOne({ email });
-          console.log("currentUser", currentUser);
-          if (currentUser) {
-            return currentUser;
-          }
+        const db = await connectDB();
+        const currentUser = await db.collection("users").findOne({ email });
+        console.log("currentUser", currentUser);
+        if (!currentUser) {
+          return null;
         }
+        const passwordMatched = bcrypt.compareSync(
+          password,
+          currentUser.password
+        );
 
-        return null;
+        if (!passwordMatched) {
+          return null;
+        }
+        return currentUser;
       },
     }),
     GoogleProvider({
@@ -61,6 +66,10 @@ export const authOptions = {
       session.user.type = token.type;
       return session;
     },
+  },
+
+  pages: {
+    signIn: "/login",
   },
 };
 
