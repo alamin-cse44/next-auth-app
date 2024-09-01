@@ -13,6 +13,16 @@ module.exports = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
+    container: {
+      center: true, // Automatically centers the container
+      padding: "2rem", // Applies padding to the container
+      screens: {
+        sm: "100%", // Full width on small screens
+        md: "768px", // 768px width on medium screens
+        lg: "1024px", // 1024px width on large screens
+        xl: "1280px", // 1280px width on extra-large screens
+      },
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {
@@ -20,18 +30,18 @@ module.exports = {
       {
         mytheme: {
           ...require("daisyui/src/theming/themes")["ligt"],
-          "primary": "#FF3811",
-          "secondary": "#fff",
-          "accent": "#37cdbe",
-          "neutral": "#3d4451",
+          primary: "#FF3811",
+          secondary: "#fff",
+          accent: "#37cdbe",
+          neutral: "#3d4451",
           "base-100": "#ffffff",
 
           ".btn-primary": {
-            "color": "#fff",
+            color: "#fff",
           },
           ".btn-outline.btn-primary:hover": {
-            "color": "#fff"
-          }
+            color: "#fff",
+          },
         },
       },
       "dark",

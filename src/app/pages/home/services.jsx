@@ -61,7 +61,7 @@ const Services = () => {
   }, []);
   console.log("data", data)
   return (
-    <section className="py-16 ">
+    <section className="py-16 container">
       <div className="text-center mb-12 flex flex-col gap-4">
         <h2 className="text-primary text-lg font-bold">Service</h2>
         <h3 className="text-4xl font-bold">Our Service Area</h3>
@@ -71,7 +71,7 @@ const Services = () => {
           Believable.
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {data?.map((service) => (
           <div key={service.id} className="card shadow-lg">
              <figure>

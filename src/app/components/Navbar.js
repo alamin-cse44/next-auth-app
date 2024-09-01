@@ -16,7 +16,7 @@ const Navbar = () => {
   };
   return (
     <nav className="bg-white shadow-md ">
-      <div className="max-w-7xl container mx-auto sm:px-0 px-3 ">
+      <div className="max-w-7xl container mx-auto ">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="-ml-2 mr-2 flex items-center md:hidden">
