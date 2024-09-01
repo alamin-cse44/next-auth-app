@@ -14,7 +14,7 @@ const BannerCarousel = () => {
 
   return (
     <div className="container mx-auto mt-2">
-      <div className="relative w-full h-[90vh]">
+      <div className="relative w-full lg:h-[90vh]">
         {" "}
         {/* Set height explicitly */}
         <Carousel
@@ -30,7 +30,10 @@ const BannerCarousel = () => {
         >
           {banner.map((item, index) => {
             return (
-              <div key={index} className="relative w-full h-[90vh] rounded-lg">
+              <div
+                key={index}
+                className="relative w-full lg:h-[90vh] h-[50vh] rounded-lg"
+              >
                 <Image
                   src={`/assets/images/banner/${index + 1}.jpg`}
                   alt="Slide 1"
@@ -40,11 +43,13 @@ const BannerCarousel = () => {
                   className="rounded-lg"
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-start p-10 space-y-4 rounded-lg">
-                  <h1 className="text-white text-4xl font-bold">
+                  <h1 className="text-white lg:text-4xl text-2xl font-bold lg:w-[250px] lg:text-left">
                     {item.title}
                   </h1>
-                  <p className="text-white text-lg">{item.description}</p>
-                  <div className="flex space-x-4">
+                  <p className="text-white lg:text-lg text-sm lg:w-[480px] lg:text-left">
+                    {item.description}
+                  </p>
+                  <div className="flex  space-x-4">
                     <button className="btn btn-primary ">Discover More</button>
 
                     <button className="btn btn-outline btn-secondary">
@@ -58,28 +63,30 @@ const BannerCarousel = () => {
           {/* Add more slides as needed */}
         </Carousel>
         {/* Custom Navigation Buttons */}
-        <button
-          type="button"
-          className="absolute right-24 bottom-5 btn btn-circle"
-          onClick={() =>
-            setCurrentIndex((prevIndex) =>
-              prevIndex === 0 ? banner.length - 1 : prevIndex - 1
-            )
-          }
-        >
-          ❮
-        </button>
-        <button
-          type="button"
-          className="absolute right-8 bottom-5 btn btn-circle btn-primary"
-          onClick={() =>
-            setCurrentIndex((prevIndex) =>
-              prevIndex === banner.length - 1 ? 0 : prevIndex + 1
-            )
-          }
-        >
-          ❯
-        </button>
+        <div className="">
+          <button
+            type="button"
+            className="absolute right-24 lg:bottom-5 btn btn-circle"
+            onClick={() =>
+              setCurrentIndex((prevIndex) =>
+                prevIndex === 0 ? banner.length - 1 : prevIndex - 1
+              )
+            }
+          >
+            ❮
+          </button>
+          <button
+            type="button"
+            className="absolute right-8  lg:bottom-5 btn btn-circle btn-primary"
+            onClick={() =>
+              setCurrentIndex((prevIndex) =>
+                prevIndex === banner.length - 1 ? 0 : prevIndex + 1
+              )
+            }
+          >
+            ❯
+          </button>
+        </div>
       </div>
     </div>
   );

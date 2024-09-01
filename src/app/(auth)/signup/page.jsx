@@ -9,8 +9,6 @@ import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 import Link from "next/link";
 import SocialAppLogin from "@/app/components/SocialAppLogin";
 import Image from "next/image";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -54,7 +52,9 @@ const Page = () => {
       image: data.file,
     };
 
-    const res = await fetch("http://localhost:3000/api/auth/signup/new-user", {
+    // console.log("new user", newUser);
+
+    const res = await fetch("http://localhost:3000/signup/api", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newUser),
