@@ -1,5 +1,4 @@
-
-import ServiceInfo from "@/app/components/serviceInfo";
+import ServiceInfo from "@/app/components/ServiceInfo";
 import { getServiceById } from "@/services/getServices";
 import Image from "next/image";
 import Link from "next/link";
@@ -112,21 +111,21 @@ const page = async ({ params }) => {
                 </p>
               </div>
             </div>
-              {/* Video Section */}
-              <div className="mt-8 relative">
-                <Image
-                  src="/assets/images/banner/2.jpg"
-                  alt="Service Video"
-                  width={800}
-                  height={400}
-                  className="rounded-lg"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <button className="bg-primary text-white rounded-full p-4">
-                    <FaPlay size={20} />
-                  </button>
-                </div>
+            {/* Video Section */}
+            <div className="mt-8 relative">
+              <Image
+                src="/assets/images/banner/2.jpg"
+                alt="Service Video"
+                width={800}
+                height={400}
+                className="rounded-lg"
+              />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <button className="bg-primary text-white rounded-full p-4">
+                  <FaPlay size={20} />
+                </button>
               </div>
+            </div>
           </div>
         </div>
 
@@ -135,13 +134,13 @@ const page = async ({ params }) => {
           {/* Services List */}
           <ServiceInfo />
 
-
           {/* Pricing Information */}
           <div className="bg-gray-100 p-4 rounded-md mt-8">
             <h4 className="text-lg font-semibold mb-2">Price: {price}</h4>
+            <Link href={`/pages/checkout/${_id}`}>
             <button className="btn btn-primary text-white w-full py-2 mt-4 rounded-md">
               Proceed Checkout
-            </button>
+            </button></Link>
           </div>
         </div>
       </div>
