@@ -1,5 +1,6 @@
 
-import { getServiceById, getServices } from "@/services/getServices";
+import ServiceInfo from "@/app/components/serviceInfo";
+import { getServiceById } from "@/services/getServices";
 import Image from "next/image";
 import Link from "next/link";
 import { FaPlay } from "react-icons/fa";
@@ -12,9 +13,6 @@ export const metadata = {
 const page = async ({ params }) => {
   const details = await getServiceById(params.id);
   const { _id, title, img, price, description, facility } = details.data;
-  console.log("details", details.data.facility);
-  const data = await getServices();
-
 
   return (
     <div className="container mx-auto mt-2">
@@ -135,37 +133,14 @@ const page = async ({ params }) => {
         {/* Sidebar */}
         <div className="lg:col-span-1">
           {/* Services List */}
-          <div className="bg-gray-100 p-4 rounded-md mb-6">
-            <h4 className="text-lg font-semibold mb-4">Services</h4>
-            <ul className="space-y-2">
-              <li className="text-red-600 hover:underline">Oil Change</li>
-              <li className="hover:underline">Engine Diagnostics</li>
-              <li className="hover:underline">Brake Repair</li>
-              <li className="hover:underline">Battery Change</li>
-            </ul>
-          </div>
+          <ServiceInfo />
 
-          {/* Download Section */}
-          <div className="bg-gray-100 p-4 rounded-md mb-6">
-            <h4 className="text-lg font-semibold mb-4">Download</h4>
-            <Link href="#">
-              <btn className="block bg-red-600 text-white text-center py-2 rounded-md mb-2">
-                Service Details
-              </btn>
-            </Link>
-            <Link href="#">
-              <button className="block bg-gray-700 text-white text-center py-2 rounded-md">
-                Pricing Guide
-              </button>
-            </Link>
-          </div>
 
           {/* Pricing Information */}
-          <div className="bg-gray-100 p-4 rounded-md">
-            <h4 className="text-lg font-semibold mb-2">Price</h4>
-            <p className="text-xl font-bold text-red-600">$250.00</p>
-            <button className="bg-red-600 text-white w-full py-2 mt-4 rounded-md">
-              Book Now
+          <div className="bg-gray-100 p-4 rounded-md mt-8">
+            <h4 className="text-lg font-semibold mb-2">Price: {price}</h4>
+            <button className="btn btn-primary text-white w-full py-2 mt-4 rounded-md">
+              Proceed Checkout
             </button>
           </div>
         </div>
