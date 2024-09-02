@@ -7,7 +7,10 @@ import Footer from "./components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Next Auth App",
+  title: {
+    default: "Car Engineer",
+    template: "%s | Car Engineer"
+  },
   description: "Motive to implement a next auth app",
 };
 

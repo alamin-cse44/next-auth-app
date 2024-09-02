@@ -1,27 +1,29 @@
 "use client";
 
 import ServicesCard from "@/app/components/ServicesCard";
+import { getServices } from "@/services/getServices";
 import React, { useEffect, useState } from "react";
 
 
-const Services = () => {
-  const [data, setData] = useState(null);
+const Services = async() => {
+  // const [data, setData] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/services/api/get-all");
-        const jsonData = await response.json();
-        setData(jsonData);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch("http://localhost:3000/services/api/get-all");
+  //       const jsonData = await response.json();
+  //       setData(jsonData);
         
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
-  console.log("data", data?.data)
+  //   fetchData();
+  // }, []);
+  const data = await getServices();
+  // console.log("data", data)
   return (
     <section className="py-16 container">
       <div className="text-center mb-12 flex flex-col gap-4">
