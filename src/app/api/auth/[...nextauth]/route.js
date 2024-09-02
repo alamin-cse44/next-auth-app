@@ -2,6 +2,7 @@ import connectDB from "@/lib/connectDB";
 import nextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import GitHubProvider from "next-auth/providers/github";
 import bcrypt from "bcrypt";
 
 export const authOptions = {
@@ -52,9 +53,37 @@ export const authOptions = {
       clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
       clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
     }),
+    GitHubProvider({
+      clientId: process.env.NEXT_PUBLIC_GITHUB_ID,
+      clientSecret: process.env.NEXT_PUBLIC_GITHUB_SECRET,
+    }),
   ],
 
   callbacks: {
+    async signIn({ user, account }) {
+      if (account.provider === "google" || account.provider === "github") {
+        const { name, email, image } = user;
+        console.log("account", account);
+        try {
+          const db = await connectDB();
+          const userCollection = db.collection("users");
+          const existUser = await userCollection.findOne({ email });
+          if (!existUser) {
+            const res = await userCollection.insertOne({
+              ...user,
+              type: "user",
+            });
+            return res;
+          } else {
+            return user;
+          }
+        } catch (error) {
+          console.log("error", error);
+        }
+      } else {
+        return user;
+      }
+    },
     async jwt({ token, account, user }) {
       if (account) {
         token.type = user.type;
