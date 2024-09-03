@@ -5,7 +5,6 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
 const ServiceInfo = () => {
-  // State to store the services data and selected service
   const [services, setServices] = useState([]);
   const [selectedService, setSelectedService] = useState(
     "635a0c0b64a6d231228942ae"
@@ -16,7 +15,6 @@ const ServiceInfo = () => {
     const fetchData = async () => {
       try {
         const data = await getServices();
-        console.log("test", data);
         setServices(data?.data || []);
       } catch (error) {
         console.error("Error fetching services:", error);

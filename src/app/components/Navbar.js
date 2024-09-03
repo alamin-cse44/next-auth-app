@@ -9,7 +9,7 @@ import { IoCartOutline } from "react-icons/io5";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const session = useSession();
-  console.log("session", session);
+  // console.log("session", session);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -86,10 +86,10 @@ const Navbar = () => {
               About
             </Link>
             <Link
-              href="/dashboard"
+              href="/pages/my-bookings"
               className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
             >
-              Dashboard
+              My Bookings
             </Link>
             <Link
               href="/contact"
@@ -152,10 +152,10 @@ const Navbar = () => {
               About
             </Link>
             <Link
-              href="/dashboard"
+              href="/pages/my-bookings"
               className="text-gray-800 hover:text-gray-600 block px-3 py-2 rounded-md text-base font-medium"
             >
-              Dashboard
+              My Bookings
             </Link>
             <Link
               href="/contact"
