@@ -5,11 +5,29 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 // export const metadata = {
 //   title: "Service Checkout",
 //   description: "Service Details Page",
 // };
+
+// Define the Yup validation schema
+const schema = yup.object().shape({
+  name: yup.string().required("Name is required"),
+  email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  date: yup.date().required("Date is required"),
+  phone: yup
+    .string()
+    .matches(/^[0-9-]+$/, "Invalid phone number")
+    .required("Phone number is required"),
+  address: yup.string().required("Address is required"),
+  price: yup.string().required("Price is required"),
+});
 
 const Checkout = ({ params }) => {
   const [services, setServices] = useState([]);
@@ -28,7 +46,8 @@ const Checkout = ({ params }) => {
     fetchData();
   }, []);
   const { _id, title, img, price, description, facility } = services;
-  const date = new Date().getDate();
+  const date = new Date();
+  console.log("parie and date: ", price, date);
   const {
     register,
     handleSubmit,
@@ -37,11 +56,12 @@ const Checkout = ({ params }) => {
     defaultValues: {
       name: data?.user?.name,
       email: data?.user?.email,
-      date: date,
-      phone: "+880 ",
+      date: "",
+      phone: "",
       address: "",
-      price: services?.price,
+      price: price,
     },
+    resolver: yupResolver(schema),
   });
 
   // Function to handle form submission
@@ -90,6 +110,9 @@ const Checkout = ({ params }) => {
               placeholder="Name"
               className="p-2 w-full border rounded-md focus:outline-none"
             />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+            )}
           </div>
           <div>
             <label
@@ -105,6 +128,11 @@ const Checkout = ({ params }) => {
               placeholder="Email"
               className="p-2 w-full border rounded-md focus:outline-none"
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
         </div>
         <div className="grid lg:grid-cols-2 gap-6 mt-4">
@@ -121,6 +149,9 @@ const Checkout = ({ params }) => {
               type="date"
               className="p-2 w-full border rounded-md focus:outline-none"
             />
+            {errors.date && (
+              <p className="text-red-500 text-sm mt-1">{errors.date.message}</p>
+            )}
           </div>
           <div>
             <label
@@ -135,6 +166,11 @@ const Checkout = ({ params }) => {
               placeholder="Phone"
               className="p-2 w-full border rounded-md focus:outline-none"
             />
+            {errors.phone && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.phone.message}
+              </p>
+            )}
           </div>
         </div>
         <div className="mt-6">
@@ -150,6 +186,11 @@ const Checkout = ({ params }) => {
             placeholder="Address"
             className="p-2 w-full border rounded-md focus:outline-none"
           />
+          {errors.address && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.address.message}
+            </p>
+          )}
         </div>
         <div className="mt-6">
           <label
@@ -161,9 +202,14 @@ const Checkout = ({ params }) => {
           <input
             id="price"
             {...register("price", { required: true })}
-            placeholder="Price"
+            placeholder={price}
             className="p-2 w-full border rounded-md focus:outline-none"
           />
+          {errors.price && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.price.message}
+            </p>
+          )}
         </div>
         <div className="mt-4">
           <button
