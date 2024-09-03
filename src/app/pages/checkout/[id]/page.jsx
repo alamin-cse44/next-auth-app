@@ -26,7 +26,7 @@ const schema = yup.object().shape({
     .matches(/^[0-9-]+$/, "Invalid phone number")
     .required("Phone number is required"),
   address: yup.string().required("Address is required"),
-  price: yup.string().required("Price is required"),
+//   price: yup.string().required("Price is required"),
 });
 
 const Checkout = ({ params }) => {
@@ -46,8 +46,8 @@ const Checkout = ({ params }) => {
     fetchData();
   }, []);
   const { _id, title, img, price, description, facility } = services;
-  const date = new Date();
-  console.log("parie and date: ", price, date);
+  //   const date = new Date();
+  //   console.log("parie and date: ", price, date);
   const {
     register,
     handleSubmit,
@@ -66,7 +66,26 @@ const Checkout = ({ params }) => {
 
   // Function to handle form submission
   const onSubmit = (data) => {
-    console.log("Form Data:", data);
+    const newBooking = {
+      name: data.name,
+      email: data.email,
+      date: data.date,
+      phone: data.phone,
+      address: data.address,
+      price: data.price,
+      serviceTitle: title,
+      serviceId: _id,
+    };
+    // console.log("Form Data:", newBooking);
+    const res = fetch("http://localhost:3000/pages/checkout/api/new-booking", {
+      method: "POST",
+      body: JSON.stringify(newBooking),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newBooking),
+    });
+    console.log("bookings ", res);
   };
   return (
     <div className="container mx-auto mt-2">
@@ -201,15 +220,15 @@ const Checkout = ({ params }) => {
           </label>
           <input
             id="price"
-            {...register("price", { required: true })}
+            // {...register("price", { required: true })}
             placeholder={price}
+            value={price}
+            readOnly
             className="p-2 w-full border rounded-md focus:outline-none"
           />
-          {errors.price && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.price.message}
-            </p>
-          )}
+          {/* {errors.price && (
+            <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
+          )} */}
         </div>
         <div className="mt-4">
           <button
