@@ -26,28 +26,29 @@ const schema = yup.object().shape({
     .matches(/^[0-9-]+$/, "Invalid phone number")
     .required("Phone number is required"),
   address: yup.string().required("Address is required"),
-//   price: yup.string().required("Price is required"),
+  //   price: yup.string().required("Price is required"),
 });
 
 const Checkout = ({ params }) => {
   const [services, setServices] = useState([]);
-
   const { data } = useSession();
+
   useEffect(() => {
+    if (!data?.user?.email) {
+      return;
+    }
     const fetchData = async () => {
       try {
-        const data = await getServiceById(params.id);
-        setServices(data?.data || []);
+        const res = await getServiceById(params.id);
+        setServices(res?.data || []);
       } catch (error) {
         console.error("Error fetching services:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [data?.user?.email]);
   const { _id, title, img, price, description, facility } = services;
-  //   const date = new Date();
-  //   console.log("parie and date: ", price, date);
   const {
     register,
     handleSubmit,
@@ -72,8 +73,9 @@ const Checkout = ({ params }) => {
       date: data.date,
       phone: data.phone,
       address: data.address,
-      price: data.price,
+      price: price,
       serviceTitle: title,
+      img: img,
       serviceId: _id,
     };
     // console.log("Form Data:", newBooking);
