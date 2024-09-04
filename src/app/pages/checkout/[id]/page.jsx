@@ -87,6 +87,7 @@ const Checkout = ({ params }) => {
       },
       body: JSON.stringify(newBooking),
     });
+    // const resp = res.json();
     console.log("bookings ", res);
   };
   return (

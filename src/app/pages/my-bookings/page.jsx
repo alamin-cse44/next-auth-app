@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 const Page = () => {
   const [bookings, setBookings] = useState([]);
@@ -29,14 +30,34 @@ const Page = () => {
   }, [session?.data?.user?.email]);
 
   const handleDelete = async (id) => {
-    const res = await fetch(
-      `http://localhost:3000/pages/my-bookings/api/delete-booking/${id}`,
-      { method: "DELETE" }
-    );
-    if (res.status === 200) {
-      alert("Booking deleted successfully");
-      fetchData();
-    }
+    let res;
+    const deleteBooking = async () => {
+      res = await fetch(
+        `http://localhost:3000/pages/my-bookings/api/delete-booking/${id}`,
+        { method: "DELETE" }
+      );
+      console.log(res);
+    };
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteBooking();
+        fetchData();
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
 
   return (
