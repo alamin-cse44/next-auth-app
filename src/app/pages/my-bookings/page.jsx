@@ -7,15 +7,25 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const Page = () => {
-  const [bookings, setBookings] = useState([]);
-  const { register, handleSubmit } = useForm();
-  const [isOpen, setIsOpen] = useState(false);
-  const onSubmit = (data) => {
-    console.log(data);
-    setIsOpen(false); // Close the modal after submission
-  };
   const session = useSession();
-  console.log(session?.data?.user?.email);
+  const [bookings, setBookings] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const openModalWithItem = (item) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+        phone: selectedItem?.phone, 
+        address: selectedItem?.address,
+        date: new Date().toISOString().split("T")[0],
+    }
+  });
+  const onSubmit = (data) => {
+    console.log("Form Data:", data);
+    setIsModalOpen(false); // Close the modal after submission
+  };
   const fetchData = async () => {
     try {
       const res = await fetch(
@@ -102,8 +112,10 @@ const Page = () => {
                 </label> */}
               </th>
               <th>Service</th>
-              <th>Price</th>
               <th>Date</th>
+              <th>Price</th>
+              <th>Address</th>
+              <th>Phone</th>
               <th></th>
             </tr>
           </thead>
@@ -132,12 +144,14 @@ const Page = () => {
                     </div>
                   </div>
                 </td>
-                <td>{booking.price}</td>
                 <td>{booking.date}</td>
+                <td>{booking.price}</td>
+                <td>{booking.address}</td>
+                <td>{booking.phone}</td>
                 <th>
                   <div className="flex gap-2 items-center">
                     <button
-                      onClick={() => setIsOpen(true)}
+                      onClick={() => openModalWithItem(booking)}
                       className="btn btn-success btn-md"
                     >
                       Edit
@@ -155,60 +169,63 @@ const Page = () => {
           </tbody>
         </table>
       </div>
-      {isOpen && (
+      {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="modal-box w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4">Responsive Modal</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              Update Booking for {selectedItem.serviceTitle}
+            </h2>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4">
                 <label
                   className="block text-sm font-medium text-gray-700"
-                  htmlFor="name"
+                  htmlFor="phone"
                 >
-                  Name
+                  Phone
                 </label>
                 <input
                   type="text"
-                  id="name"
-                  {...register("name")}
-                  placeholder="Name"
+                  id="phone"
+                  {...register("phone")}
+                  placeholder="Phone"
                   className="input input-bordered w-full mt-1 focus:outline-none"
                 />
               </div>
               <div className="mb-4">
                 <label
                   className="block text-sm font-medium text-gray-700"
-                  htmlFor="email"
+                  htmlFor="address"
                 >
-                  Email
+                  Address
                 </label>
                 <input
-                  type="email"
-                  id="email"
-                  {...register("email")}
-                  placeholder="Email"
+                  type="address"
+                  id="address"
+                  {...register("address")}
+                  placeholder="Address"
                   className="input input-bordered w-full mt-1 focus:outline-none"
                 />
               </div>
               <div className="mb-4">
                 <label
                   className="block text-sm font-medium text-gray-700"
-                  htmlFor="message"
+                  htmlFor="date"
                 >
-                  Message
+                  Date
                 </label>
-                <textarea
-                  id="message"
-                  {...register("message")}
-                  placeholder="Your message"
-                  className="textarea textarea-bordered w-full mt-1 focus:outline-none"
+                <input
+                  type="date"
+                  id="date"
+                  {...register("date")}
+                  placeholder="Date"
+                  className="input input-bordered w-full mt-1 focus:outline-none"
                 />
               </div>
               <div className="flex justify-end">
                 <button
                   type="button"
                   className="btn btn-secondary mr-2"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => setIsModalOpen(false)}
                 >
                   Cancel
                 </button>

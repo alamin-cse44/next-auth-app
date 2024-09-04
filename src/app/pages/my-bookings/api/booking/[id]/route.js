@@ -36,3 +36,25 @@ export const GET = async (request, { params }) => {
     return Response.status(500).json({ message: "Error finding booking" });
   }
 };
+
+export const PATCH = async (request, { params }) => {
+  const db = await connectDB();
+  const updatedata = request.json();
+  const bookingCollection = db.collection("bookings");
+  try {
+    const booking = await bookingCollection.updateOne(
+      {
+        _id: new ObjectId(params.id),
+      },
+      { $set: {} }
+    );
+    return Response.json({
+      status: 200,
+      message: "booking is updated successfully",
+      data: booking,
+    });
+  } catch (error) {
+    console.error("Error finding booking:", error);
+    return Response.status(500).json({ message: "Error finding booking" });
+  }
+};
