@@ -15,17 +15,14 @@ const Page = () => {
     setSelectedItem(item);
     setIsModalOpen(true);
   };
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
-        phone: selectedItem?.phone, 
-        address: selectedItem?.address,
-        date: new Date().toISOString().split("T")[0],
-    }
+      phone: selectedItem?.phone,
+      address: selectedItem?.address,
+      date: new Date().toISOString().split("T")[0],
+    },
   });
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
-    setIsModalOpen(false); // Close the modal after submission
-  };
+
   const fetchData = async () => {
     try {
       const res = await fetch(
@@ -75,6 +72,27 @@ const Page = () => {
         });
       }
     });
+  };
+
+  const onSubmit = async (data) => {
+    const updateDoc = {
+      phone: data.phone,
+      address: data.address,
+      date: data.date,
+    };
+    const update = await fetch(
+      `http://localhost:3000/pages/my-bookings/api/booking/${selectedItem._id}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updateDoc),
+      }
+    );
+    
+    fetchData();
+    console.log("Form Data:", update);
+    reset();
+    setIsModalOpen(false);
   };
 
   return (

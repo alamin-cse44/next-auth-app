@@ -39,14 +39,16 @@ export const GET = async (request, { params }) => {
 
 export const PATCH = async (request, { params }) => {
   const db = await connectDB();
-  const updatedata = request.json();
+  const updateDoc = await request.json();
+  console.log("update doc: ", updateDoc);
   const bookingCollection = db.collection("bookings");
   try {
     const booking = await bookingCollection.updateOne(
       {
         _id: new ObjectId(params.id),
       },
-      { $set: {} }
+      { $set: { ...updateDoc } },
+      { upsert: true }
     );
     return Response.json({
       status: 200,
