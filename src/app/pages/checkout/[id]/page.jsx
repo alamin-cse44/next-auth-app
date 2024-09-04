@@ -31,10 +31,10 @@ const schema = yup.object().shape({
 
 const Checkout = ({ params }) => {
   const [services, setServices] = useState([]);
-  const { data } = useSession();
+  const session = useSession();
 
   useEffect(() => {
-    if (!data?.user?.email) {
+    if (!session?.data?.user?.email) {
       return;
     }
     const fetchData = async () => {
@@ -47,7 +47,7 @@ const Checkout = ({ params }) => {
     };
 
     fetchData();
-  }, [data?.user?.email]);
+  }, [session?.data?.user?.email]);
   const { _id, title, img, price, description, facility } = services;
   const {
     register,
@@ -55,8 +55,8 @@ const Checkout = ({ params }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: data?.user?.name,
-      email: data?.user?.email,
+      name: session?.data?.user?.name,
+      email: session?.data?.user?.email,
       date: "",
       phone: "",
       address: "",

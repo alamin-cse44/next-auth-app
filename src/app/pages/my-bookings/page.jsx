@@ -3,10 +3,17 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const Page = () => {
   const [bookings, setBookings] = useState([]);
+  const { register, handleSubmit } = useForm();
+  const [isOpen, setIsOpen] = useState(false);
+  const onSubmit = (data) => {
+    console.log(data);
+    setIsOpen(false); // Close the modal after submission
+  };
   const session = useSession();
   console.log(session?.data?.user?.email);
   const fetchData = async () => {
@@ -33,7 +40,7 @@ const Page = () => {
     let res;
     const deleteBooking = async () => {
       res = await fetch(
-        `http://localhost:3000/pages/my-bookings/api/delete-booking/${id}`,
+        `http://localhost:3000/pages/my-bookings/api/booking/${id}`,
         { method: "DELETE" }
       );
       console.log(res);
@@ -129,7 +136,12 @@ const Page = () => {
                 <td>{booking.date}</td>
                 <th>
                   <div className="flex gap-2 items-center">
-                    <button className="btn btn-success btn-md">Edit</button>
+                    <button
+                      onClick={() => setIsOpen(true)}
+                      className="btn btn-success btn-md"
+                    >
+                      Edit
+                    </button>
                     <button
                       onClick={() => handleDelete(booking._id)}
                       className="btn btn-primary btn-md"
@@ -143,6 +155,71 @@ const Page = () => {
           </tbody>
         </table>
       </div>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="modal-box w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold mb-4">Responsive Modal</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="mb-4">
+                <label
+                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="name"
+                >
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  {...register("name")}
+                  placeholder="Name"
+                  className="input input-bordered w-full mt-1 focus:outline-none"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="email"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  {...register("email")}
+                  placeholder="Email"
+                  className="input input-bordered w-full mt-1 focus:outline-none"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="message"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  {...register("message")}
+                  placeholder="Your message"
+                  className="textarea textarea-bordered w-full mt-1 focus:outline-none"
+                />
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  className="btn btn-secondary mr-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
