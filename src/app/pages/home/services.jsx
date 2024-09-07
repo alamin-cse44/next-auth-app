@@ -1,8 +1,8 @@
-"use client";
+// "use client";
 
 import ServicesCard from "@/app/components/ServicesCard";
 import { getServices } from "@/services/getServices";
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 
 
 const Services = async() => {

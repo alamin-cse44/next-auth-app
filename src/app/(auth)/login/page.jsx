@@ -46,9 +46,9 @@ const Page = () => {
       password,
       redirect: false,
     });
-    if(res.status === 200){
-      router.push("/");
-    }
+    // if(res.status === 200){
+    router.push("/");
+    // }
     // console.log("login res ", res);
   };
   return (
