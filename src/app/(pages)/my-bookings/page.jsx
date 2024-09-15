@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -25,11 +26,14 @@ const Page = () => {
 
   const fetchData = async () => {
     try {
-      const res = await fetch(
-        `http://localhost:3000/my-bookings/api/${session?.data?.user?.email}`
-      );
-      const data = await res.json();
-      setBookings(data?.data || []);
+      const res = await axios
+        .get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/my-bookings/api/${session?.data?.user?.email}`
+        )
+        .then((response) => {
+          console.log("bookings", response.data.data);
+          setBookings(response?.data?.data || []);
+        });
     } catch (error) {
       console.error("Error fetching services:", error);
     }
@@ -88,7 +92,7 @@ const Page = () => {
         body: JSON.stringify(updateDoc),
       }
     );
-    
+
     fetchData();
     console.log("Form Data:", update);
     reset();

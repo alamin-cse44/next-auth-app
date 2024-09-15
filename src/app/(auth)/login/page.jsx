@@ -46,8 +46,8 @@ const Page = () => {
     const res = await signIn("credentials", {
       email,
       password,
-      redirect: true,
-      callbackUrl: path ? path : "/",
+      redirect: false,
+      // callbackUrl: path ? path : "/",
     });
     if (res.status === 200) {
       Swal.fire({
