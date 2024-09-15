@@ -12,7 +12,7 @@ const ServicesCard = ({ service }) => {
         <h4 className="card-title">{title}</h4>
         <div className="card-actions justify-between items-center">
           <p className="text-primary font-semibold">Price: ${price}</p>
-          <Link href={`/pages/services/${_id}`}>
+          <Link href={`/services/${_id}`}>
             <button className="btn btn-outline btn-primary">View →</button>
           </Link>
         </div>
