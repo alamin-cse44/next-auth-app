@@ -1,26 +1,9 @@
 import ServicesCard from "@/app/components/ServicesCard";
 import { getServices } from "@/services/getServices";
 
-
-const Services = async() => {
-  // const [data, setData] = useState(null);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:3000/services/api/get-all");
-  //       const jsonData = await response.json();
-  //       setData(jsonData);
-        
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
+const Services = async () => {
   const data = await getServices();
-  console.log("axios data", data)
+  console.log("axios data", data);
   return (
     <section className="py-16 container">
       <div className="text-center mb-12 flex flex-col gap-4">
@@ -34,7 +17,7 @@ const Services = async() => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {data?.data?.map((service) => (
-          <ServicesCard key={service._id} service={service} /> 
+          <ServicesCard key={service._id} service={service} />
         ))}
       </div>
       <div className="flex justify-center mt-8">

@@ -2,9 +2,6 @@ import axios from "axios";
 
 export const getServices = async () => {
   try {
-    // const response = await fetch("http://localhost:3000/pages/services/api/get-all");
-    // const jsonData = await response.json();
-    // return jsonData;
     const res = await axios.get(
       "http://localhost:3000/pages/services/api/get-all"
     );
