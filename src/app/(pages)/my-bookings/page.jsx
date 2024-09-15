@@ -50,11 +50,24 @@ const Page = () => {
   const handleDelete = async (id) => {
     let res;
     const deleteBooking = async () => {
-      res = await fetch(
-        `http://localhost:3000/pages/my-bookings/api/booking/${id}`,
-        { method: "DELETE" }
+      res = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/my-bookings/api/booking/${id}`
       );
       console.log(res);
+      if (res.status === 200) {
+        fetchData();
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your booking has been deleted.",
+          icon: "success",
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Failed to delete booking",
+          icon: "error",
+        });
+      }
     };
 
     Swal.fire({
@@ -68,12 +81,6 @@ const Page = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteBooking();
-        fetchData();
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
-        });
       }
     });
   };
