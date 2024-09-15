@@ -7,6 +7,8 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 // export const metadata = {
 //   title: "Service Checkout",
@@ -38,7 +40,7 @@ const Checkout = ({ params }) => {
     if (!session?.data?.user?.email) {
       return;
     }
-  },[session?.data?.user?.email])
+  }, [session?.data?.user?.email]);
 
   useEffect(() => {
     if (!session?.data?.user?.email) {
@@ -86,16 +88,31 @@ const Checkout = ({ params }) => {
       serviceId: _id,
     };
     // console.log("Form Data:", newBooking);
-    const res = fetch("http://localhost:3000/pages/checkout/api/new-booking", {
-      method: "POST",
-      body: JSON.stringify(newBooking),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newBooking),
-    });
-    // const resp = res.json();
-    console.log("bookings ", res);
+    const res = axios
+      .post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/pages/checkout/api/new-booking`,
+        newBooking,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        console.log("booking response:", response.data);
+        if (response.data.data) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your booking has been added successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("error:", err);
+      });
   };
   return (
     <div className="container mx-auto mt-2">

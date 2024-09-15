@@ -10,6 +10,10 @@ export const GET = async () => {
     const res = await serviceCollection.insertMany(services);
     return res.json({ message: "services updated successfully" });
   } catch (error) {
-    console.log("error", error);
+    return NextResponse.json({
+      status: 400,
+      message: "services not found",
+      error: error,
+    });
   }
 };

@@ -10,6 +10,7 @@ import Link from "next/link";
 import SocialAppLogin from "@/app/components/SocialAppLogin";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
+import Swal from "sweetalert2";
 
 const schema = yup.object().shape({
   email: yup
@@ -46,10 +47,17 @@ const Page = () => {
       password,
       redirect: false,
     });
-    // if(res.status === 200){
-    router.push("/");
-    // }
-    // console.log("login res ", res);
+    if (res.status === 200) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Login successful!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      router.push("/");
+    }
+    console.log("login res ", res);
   };
   return (
     <div className="grid lg:grid-cols-2 mt-2 justify-center items-center container mx-auto">

@@ -9,6 +9,8 @@ import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 import Link from "next/link";
 import SocialAppLogin from "@/app/components/SocialAppLogin";
 import Image from "next/image";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -52,14 +54,32 @@ const Page = () => {
       image: data.file,
     };
 
-    // console.log("new user", newUser);
-
-    const res = await fetch("http://localhost:3000/signup/api", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newUser),
-    });
-    console.log("Signup form submitted", res);
+    const res = axios
+      .post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/signup/api`, newUser, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("signup response:", response.data);
+        if (response.data.data) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "You have signup successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
   };
   return (
     <div className="grid lg:grid-cols-2 mt-2 justify-center items-center container mx-auto">

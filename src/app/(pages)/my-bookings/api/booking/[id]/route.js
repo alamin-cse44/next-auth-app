@@ -1,5 +1,6 @@
 import connectDB from "@/lib/connectDB";
 import { ObjectId } from "mongodb";
+import { NextResponse } from "next/server";
 
 export const DELETE = async (request, { params }) => {
   const db = await connectDB();
@@ -8,14 +9,13 @@ export const DELETE = async (request, { params }) => {
     const res = await bookingCollection.deleteOne({
       _id: new ObjectId(params.id),
     });
-    return Response.json({
+    return NextResponse.json({
       message: "booking deleted successfully",
       response: res,
       status: "200",
     });
   } catch (error) {
-    console.error("Error deleting booking:", error);
-    return Response.status(500).json({ message: "Error deleting booking" });
+    return NextResponse.status(500).json({ message: "Error deleting booking" });
   }
 };
 
@@ -26,14 +26,13 @@ export const GET = async (request, { params }) => {
     const booking = await bookingCollection.findOne({
       _id: new ObjectId(params.id),
     });
-    return Response.json({
+    return NextResponse.json({
       status: 200,
       message: "booking is found",
       data: booking,
     });
   } catch (error) {
-    console.error("Error finding booking:", error);
-    return Response.status(500).json({ message: "Error finding booking" });
+    return NextResponse.status(500).json({ message: "Error finding booking" });
   }
 };
 
@@ -50,13 +49,12 @@ export const PATCH = async (request, { params }) => {
       { $set: { ...updateDoc } },
       { upsert: true }
     );
-    return Response.json({
+    return NextResponse.json({
       status: 200,
       message: "booking is updated successfully",
       data: booking,
     });
   } catch (error) {
-    console.error("Error finding booking:", error);
-    return Response.status(500).json({ message: "Error finding booking" });
+    return NextResponse.status(500).json({ message: "Error finding booking" });
   }
 };

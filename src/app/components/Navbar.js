@@ -107,15 +107,9 @@ const Navbar = () => {
             </Link>
             {!session?.data?.user ? (
               <div className="flex items-center">
-                {/* <Link
-                  href="api/auth/signin"
-                  className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Login
-                </Link> */}
-                <Link href="/signup">
+                <Link href="/login">
                   <button className="btn ml-4 bg-blue-500 text-white  rounded-md text-sm font-medium hover:bg-blue-600">
-                    Sign Up
+                    Login
                   </button>
                 </Link>
               </div>
@@ -124,10 +118,7 @@ const Navbar = () => {
                 <p>
                   {session.data.user.name} - {session.data.user.type}
                 </p>
-                <Link
-                  onClick={() => signOut()}
-                  href="/"
-                >
+                <Link onClick={() => signOut()} href="/">
                   <button className="btn btn-primary">Logout</button>
                 </Link>
               </div>
