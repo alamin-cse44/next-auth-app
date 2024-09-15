@@ -26,7 +26,7 @@ const Page = () => {
   const fetchData = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/pages/my-bookings/api/${session?.data?.user?.email}`
+        `http://localhost:3000/my-bookings/api/${session?.data?.user?.email}`
       );
       const data = await res.json();
       setBookings(data?.data || []);
@@ -139,8 +139,8 @@ const Page = () => {
           </thead>
           <tbody>
             {/* row 1 */}
-            {bookings.map((booking) => (
-              <tr>
+            {bookings.map((booking, idx) => (
+              <tr key={booking._id}>
                 <th>
                   {/* <label>
                     <input type="checkbox" className="checkbox" />

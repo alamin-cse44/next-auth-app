@@ -61,7 +61,10 @@ const page = async ({ params }) => {
           {/* Features Section */}
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {facility.map((item, index) => (
-              <div className="bg-gray-100 p-6 rounded-md border-2 border-t-primary">
+              <div
+                key={index}
+                className="bg-gray-100 p-6 rounded-md border-2 border-t-primary"
+              >
                 <h3 className="font-semibold text-lg">{item.name}</h3>
                 <p className="text-gray-600 mt-3">{item.details}</p>
               </div>
@@ -138,7 +141,7 @@ const page = async ({ params }) => {
           {/* Pricing Information */}
           <div className="bg-gray-100 p-4 rounded-md mt-8">
             <h4 className="text-lg font-semibold mb-2">Price: {price}</h4>
-            <Link href={`/pages/checkout/${_id}`}>
+            <Link href={`/checkout/${_id}`}>
               <button className="btn btn-primary text-white w-full py-2 mt-4 rounded-md">
                 Proceed Checkout
               </button>

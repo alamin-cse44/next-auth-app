@@ -86,7 +86,7 @@ const Navbar = () => {
               About
             </Link>
             <Link
-              href="/pages/my-bookings"
+              href="/my-bookings"
               className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
             >
               My Bookings
@@ -143,7 +143,7 @@ const Navbar = () => {
               About
             </Link>
             <Link
-              href="/pages/my-bookings"
+              href="/my-bookings"
               className="text-gray-800 hover:text-gray-600 block px-3 py-2 rounded-md text-base font-medium"
             >
               My Bookings

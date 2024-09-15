@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -29,7 +29,8 @@ const schema = yup.object().shape({
 
 const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const searchParams = useSearchParams();
+  const path = searchParams.get("redirect");
   const router = useRouter();
   const {
     register,
@@ -45,7 +46,8 @@ const Page = () => {
     const res = await signIn("credentials", {
       email,
       password,
-      redirect: false,
+      redirect: true,
+      callbackUrl: path ? path : "/",
     });
     if (res.status === 200) {
       Swal.fire({

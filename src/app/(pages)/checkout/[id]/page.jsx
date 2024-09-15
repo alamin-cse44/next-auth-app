@@ -90,7 +90,7 @@ const Checkout = ({ params }) => {
     // console.log("Form Data:", newBooking);
     const res = axios
       .post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/pages/checkout/api/new-booking`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/checkout/api/new-booking`,
         newBooking,
         {
           headers: {
@@ -111,7 +111,13 @@ const Checkout = ({ params }) => {
         }
       })
       .catch((err) => {
-        console.log("error:", err);
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: err.message,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
   return (
