@@ -5,7 +5,9 @@ export const getServices = async () => {
     // const response = await fetch("http://localhost:3000/pages/services/api/get-all");
     // const jsonData = await response.json();
     // return jsonData;
-    const res = await axios.get("http://localhost:3000/pages/services/api/get-all");
+    const res = await axios.get(
+      "http://localhost:3000/pages/services/api/get-all"
+    );
 
     return res.data;
   } catch (error) {
@@ -15,9 +17,10 @@ export const getServices = async () => {
 
 export const getServiceById = async (id) => {
   try {
-    const response = await fetch(`http://localhost:3000/pages/services/api/${id}`);
-    const jsonData = await response.json();
-    return jsonData;
+    const res = await axios.get(
+      `http://localhost:3000/pages/services/api/${id}`
+    );
+    return res.data;
   } catch (error) {
     console.error("Error fetching data:", error);
   }

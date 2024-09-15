@@ -24,7 +24,7 @@ const ServiceInfo = () => {
     fetchData();
   }, []);
 
-  // console.log("services in service page : ", services);
+  console.log("services in service page : ", services);
 
   return (
     <div className="w-full max-w-sm p-4 bg-gray-100 rounded-md">

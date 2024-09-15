@@ -11,6 +11,7 @@ export const metadata = {
 
 const page = async ({ params }) => {
   const details = await getServiceById(params.id);
+  console.log("service details", details);
   const { _id, title, img, price, description, facility } = details.data;
 
   return (
@@ -138,9 +139,10 @@ const page = async ({ params }) => {
           <div className="bg-gray-100 p-4 rounded-md mt-8">
             <h4 className="text-lg font-semibold mb-2">Price: {price}</h4>
             <Link href={`/pages/checkout/${_id}`}>
-            <button className="btn btn-primary text-white w-full py-2 mt-4 rounded-md">
-              Proceed Checkout
-            </button></Link>
+              <button className="btn btn-primary text-white w-full py-2 mt-4 rounded-md">
+                Proceed Checkout
+              </button>
+            </Link>
           </div>
         </div>
       </div>
