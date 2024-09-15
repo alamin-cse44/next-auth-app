@@ -113,7 +113,7 @@ const Navbar = () => {
                 >
                   Login
                 </Link> */}
-                <Link href="signup">
+                <Link href="/signup">
                   <button className="btn ml-4 bg-blue-500 text-white  rounded-md text-sm font-medium hover:bg-blue-600">
                     Sign Up
                   </button>

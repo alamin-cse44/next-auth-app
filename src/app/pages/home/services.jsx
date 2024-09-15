@@ -1,8 +1,5 @@
-// "use client";
-
 import ServicesCard from "@/app/components/ServicesCard";
 import { getServices } from "@/services/getServices";
-// import React, { useEffect, useState } from "react";
 
 
 const Services = async() => {
@@ -23,7 +20,7 @@ const Services = async() => {
   //   fetchData();
   // }, []);
   const data = await getServices();
-  // console.log("data", data)
+  console.log("axios data", data)
   return (
     <section className="py-16 container">
       <div className="text-center mb-12 flex flex-col gap-4">

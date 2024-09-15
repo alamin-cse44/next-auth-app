@@ -11,6 +11,10 @@ export const GET = async () => {
       data: services,
     });
   } catch (error) {
-    console.log("error", error);
+    return Response.json({
+      status: 400,
+      message: "services not found",
+      error: error
+    });
   }
 };

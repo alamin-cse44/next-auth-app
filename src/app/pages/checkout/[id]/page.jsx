@@ -32,6 +32,13 @@ const schema = yup.object().shape({
 const Checkout = ({ params }) => {
   const [services, setServices] = useState([]);
   const session = useSession();
+  console.log("checkout session", session);
+
+  useEffect(() => {
+    if (!session?.data?.user?.email) {
+      return;
+    }
+  },[session?.data?.user?.email])
 
   useEffect(() => {
     if (!session?.data?.user?.email) {
