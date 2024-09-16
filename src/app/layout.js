@@ -1,15 +1,14 @@
 import { Inter } from "next/font/google";
-import "./globals.css";
 import AuthProvider from "./providers/AuthProvider";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import ClientLayout from "./components/ClientLayout";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: {
     default: "Car Engineer",
-    template: "%s | Car Engineer"
+    template: "%s | Car Engineer",
   },
   description: "Motive to implement a next auth app",
 };
@@ -20,9 +19,7 @@ export default function RootLayout({ children }) {
       {/* data-theme="myTheme" */}
       <body className={inter.className}>
         <AuthProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
+          <ClientLayout>{children}</ClientLayout>
         </AuthProvider>
       </body>
     </html>

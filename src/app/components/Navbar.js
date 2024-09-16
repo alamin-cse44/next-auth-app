@@ -92,10 +92,10 @@ const Navbar = () => {
               My Bookings
             </Link>
             <Link
-              href="/contact"
+              href="/dashboard"
               className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
             >
-              Contact
+              Dashboard
             </Link>
           </div>
           <div className="flex items-center gap-4 cursor-pointer">
@@ -149,10 +149,10 @@ const Navbar = () => {
               My Bookings
             </Link>
             <Link
-              href="/contact"
+              href="/dashboard"
               className="text-gray-800 hover:text-gray-600 block px-3 py-2 rounded-md text-base font-medium"
             >
-              Contact
+              Dashboard
             </Link>
             {!session?.data?.user ? (
               <div className="flex items-center">
