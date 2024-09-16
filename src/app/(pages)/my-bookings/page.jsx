@@ -16,6 +16,7 @@ const Page = () => {
     setSelectedItem(item);
     setIsModalOpen(true);
   };
+
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       phone: selectedItem?.phone,
@@ -87,21 +88,29 @@ const Page = () => {
 
   const onSubmit = async (data) => {
     const updateDoc = {
-      phone: data.phone,
-      address: data.address,
+      phone: data.phone ? data.phone : selectedItem?.phone,
+      address: data.address ? data.address : selectedItem?.address,
       date: data.date,
     };
-    const update = await fetch(
-      `http://localhost:3000/pages/my-bookings/api/booking/${selectedItem._id}`,
+    const update = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/my-bookings/api/booking/${selectedItem._id}`,
+      updateDoc,
       {
-        method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updateDoc),
       }
     );
 
     fetchData();
     console.log("Form Data:", update);
+    if (update.data.data.modifiedCount > 0) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your booking is successfully updated",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
     reset();
     setIsModalOpen(false);
   };
@@ -216,7 +225,7 @@ const Page = () => {
                   type="text"
                   id="phone"
                   {...register("phone")}
-                  placeholder="Phone"
+                  placeholder={selectedItem?.phone}
                   className="input input-bordered w-full mt-1 focus:outline-none"
                 />
               </div>
@@ -231,7 +240,7 @@ const Page = () => {
                   type="address"
                   id="address"
                   {...register("address")}
-                  placeholder="Address"
+                  placeholder={selectedItem?.address}
                   className="input input-bordered w-full mt-1 focus:outline-none"
                 />
               </div>
