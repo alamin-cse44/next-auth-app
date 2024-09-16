@@ -66,7 +66,7 @@ const Checkout = ({ params }) => {
     defaultValues: {
       name: session?.data?.user?.name,
       email: session?.data?.user?.email,
-      date: "",
+      date: new Date().toISOString().split("T")[0],
       phone: "",
       address: "",
       price: price,

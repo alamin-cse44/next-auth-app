@@ -46,40 +46,61 @@ const Page = () => {
     resolver: yupResolver(schema),
   });
   const handleSignup = async (data) => {
-    const newUser = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      type: data.type,
-      image: data.file,
-    };
+    const formData = new FormData();
+    formData.append("image", data.file[0]);
 
-    const res = axios
-      .post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/signup/api`, newUser, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        console.log("signup response:", response.data);
-        if (response.data.data) {
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "You have signup successfully",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        } else {
-          Swal.fire({
-            position: "top-end",
-            icon: "error",
-            title: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
-          });
+    try {
+      // Upload image to ImgBB
+      const response = await fetch(
+        `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
+        {
+          method: "POST",
+          body: formData,
         }
-      });
+      );
+      const result = await response.json();
+      console.log("image response", result);
+      if (result.success) {
+        const newUser = {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          type: data.type,
+          image: result.data.url,
+        };
+        const res = axios
+          .post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/signup/api`, newUser, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((response) => {
+            console.log("signup response:", response.data);
+            if (response.data.data) {
+              router.push("/login");
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have signup successfully",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            } else {
+              Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: response.data.message,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          });
+      } else {
+        console.error("Image upload failed:", result);
+      }
+    } catch (error) {
+      console.error("Error during signup:", error);
+    }
   };
   return (
     <div className="grid lg:grid-cols-2 mt-2 justify-center items-center container mx-auto">

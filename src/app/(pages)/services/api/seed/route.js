@@ -9,7 +9,7 @@ export const GET = async () => {
   try {
     await serviceCollection.deleteMany();
     const res = await serviceCollection.insertMany(services);
-    return res.json({ message: "services updated successfully" });
+    return NextResponse.json({ message: "services updated successfully" });
   } catch (error) {
     return NextResponse.json({
       status: 400,
