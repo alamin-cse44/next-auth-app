@@ -2,6 +2,7 @@ import React from "react";
 import BannerCarousel from "./BannerCarousel";
 import About from "./About";
 import Services from "./services";
+import Team from "./Team";
 
 const HomePage = () => {
   return (
@@ -9,6 +10,7 @@ const HomePage = () => {
         <BannerCarousel />
         <About />
         <Services />
+        <Team />
     </div>
   );
 };
