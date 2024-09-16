@@ -3,7 +3,6 @@ import { getServices } from "@/services/getServices";
 
 const Services = async () => {
   const data = await getServices();
-  console.log("axios data", data);
   return (
     <section className="py-16 container">
       <div className="text-center mb-12 flex flex-col gap-4">
