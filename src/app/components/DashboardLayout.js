@@ -30,6 +30,9 @@ const DashboardLayout = ({ children }) => {
         <nav className="mt-6">
           <ul>
             <li className="p-4 hover:bg-primary hover:text-white">
+              <Link href="/">Home</Link>
+            </li>
+            <li className="p-4 hover:bg-primary hover:text-white">
               <Link href="/dashboard/add-product">Add Product</Link>
             </li>
             <li className="p-4 hover:bg-primary hover:text-white">

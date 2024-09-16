@@ -1,8 +1,10 @@
-"use client"
+"use client";
 
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import DashboardLayout from "@/app/components/DashboardLayout";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const AddProduct = () => {
   const {
@@ -12,8 +14,64 @@ const AddProduct = () => {
   } = useForm();
   const [isOffer, setIsOffer] = useState(false);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("image", data.file[0]);
+
+    try {
+      // Upload image to ImgBB
+      const response = await fetch(
+        `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const result = await response.json();
+      console.log("image response", result);
+      if (result.success) {
+        const newProduct = {
+          name: data.productName,
+          image: result.data.url,
+          price: data.price,
+          offer: isOffer ? data.offer : null,
+        };
+        const res = axios
+          .post(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/dashboard/add-product/api/new-product`,
+            newProduct,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((response) => {
+            console.log("signup response:", response.data);
+            if (response.data.data) {
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Product is added successfully",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            } else {
+              Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: response.data.message,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          });
+      } else {
+        console.error("Image upload failed:", result);
+      }
+    } catch (error) {
+      console.error("Error during product add:", error);
+    }
   };
 
   return (
@@ -36,21 +94,19 @@ const AddProduct = () => {
         </div>
 
         {/* Product Image */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Product Image URL
+        <div className="mb-4 relative">
+          <label htmlFor="file" className="block mb-1">
+            Product picture
           </label>
           <input
-            type="text"
-            {...register("productImage", {
-              required: "Product Image is required",
-            })}
-            className="input input-bordered w-full"
+            id="file"
+            name="file"
+            type="file"
+            {...register("file", { required: "Picture is required" })}
+            className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
           />
-          {errors.productImage && (
-            <p className="text-red-500 text-sm">
-              {errors.productImage.message}
-            </p>
+          {errors.file && (
+            <p className="text-red-500 text-sm">{errors.file.message}</p>
           )}
         </div>
 
