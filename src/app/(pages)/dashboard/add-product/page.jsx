@@ -1,20 +1,39 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DashboardLayout from "@/app/components/DashboardLayout";
 import axios from "axios";
 import Swal from "sweetalert2";
+import HandleProducts from "./_components/HandleProducts";
+import { getProducts } from "@/services/getProducts";
 
 const AddProduct = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const [isOffer, setIsOffer] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      const data = await getProducts();
+      setProducts(data?.data || []);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const onSubmit = async (data) => {
+    setLoading(true);
     const formData = new FormData();
     formData.append("image", data.file[0]);
 
@@ -47,8 +66,10 @@ const AddProduct = () => {
             }
           )
           .then((response) => {
-            console.log("signup response:", response.data);
             if (response.data.data) {
+              setLoading(false);
+              fetchData();
+              reset();
               Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -162,9 +183,10 @@ const AddProduct = () => {
 
         {/* Submit Button */}
         <button type="submit" className="btn btn-primary">
-          Add Product
+          {loading ? "Loading..." : "Add Product"}
         </button>
       </form>
+      <HandleProducts products={products} fetchData={fetchData} />
     </DashboardLayout>
   );
 };
