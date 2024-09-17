@@ -159,7 +159,7 @@ const Page = () => {
               className="w-full p-2 border rounded"
             >
               <option value="">Choose user type</option>
-              <option value="admin">Admin</option>
+              {/* <option value="admin">Admin</option> */}
               <option value="moderator">Moderator</option>
               <option value="member">Member</option>
             </select>

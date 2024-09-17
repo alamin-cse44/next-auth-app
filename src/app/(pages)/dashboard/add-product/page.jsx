@@ -102,7 +102,7 @@ const AddProduct = () => {
       <div className="">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 bg-gray-200 shadow-lg rounded p-6"
+          className="space-y-4 bg-slate-50 shadow-md rounded p-6"
         >
           <h1 className="text-2xl font-bold mb-4">Add Product</h1>
           {/* Product Name */}

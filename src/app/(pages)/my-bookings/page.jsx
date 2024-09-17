@@ -138,75 +138,78 @@ const Page = () => {
           </div>
         </div>
       </div>
-
-      <div className="overflow-x-auto mt-10">
-        <table className="table">
-          {/* head */}
-          <thead>
-            <tr>
-              <th>
-                {/* <label>
-                  <input type="checkbox" className="checkbox" />
-                </label> */}
-              </th>
-              <th>Service</th>
-              <th>Date</th>
-              <th>Price</th>
-              <th>Address</th>
-              <th>Phone</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* row 1 */}
-            {bookings.map((booking, idx) => (
-              <tr key={booking._id}>
+      {!bookings.length ? (
+        <h1 className="mt-3">Loading.....</h1>
+      ) : (
+        <div className="overflow-x-auto mt-10">
+          <table className="table">
+            {/* head */}
+            <thead>
+              <tr>
                 <th>
                   {/* <label>
+                  <input type="checkbox" className="checkbox" />
+                </label> */}
+                </th>
+                <th>Service</th>
+                <th>Date</th>
+                <th>Price</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* row 1 */}
+              {bookings.map((booking, idx) => (
+                <tr key={booking._id}>
+                  <th>
+                    {/* <label>
                     <input type="checkbox" className="checkbox" />
                   </label> */}
-                </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12">
-                        <img
-                          src={booking.img}
-                          alt={booking.serviceTitle}
-                          className="w-16 h-16 rounded object-cover mr-4"
-                        />
+                  </th>
+                  <td>
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">
+                        <div className="mask mask-squircle h-12 w-12">
+                          <img
+                            src={booking.img}
+                            alt={booking.serviceTitle}
+                            className="w-16 h-16 rounded object-cover mr-4"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="font-bold">{booking.serviceTitle}</div>
                       </div>
                     </div>
-                    <div>
-                      <div className="font-bold">{booking.serviceTitle}</div>
+                  </td>
+                  <td>{booking.date}</td>
+                  <td>{booking.price}</td>
+                  <td>{booking.address}</td>
+                  <td>{booking.phone}</td>
+                  <th>
+                    <div className="flex gap-2 items-center">
+                      <button
+                        onClick={() => openModalWithItem(booking)}
+                        className="btn btn-success btn-md"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(booking._id)}
+                        className="btn btn-primary btn-md"
+                      >
+                        Delete
+                      </button>
                     </div>
-                  </div>
-                </td>
-                <td>{booking.date}</td>
-                <td>{booking.price}</td>
-                <td>{booking.address}</td>
-                <td>{booking.phone}</td>
-                <th>
-                  <div className="flex gap-2 items-center">
-                    <button
-                      onClick={() => openModalWithItem(booking)}
-                      className="btn btn-success btn-md"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(booking._id)}
-                      className="btn btn-primary btn-md"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </th>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                  </th>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="modal-box w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
