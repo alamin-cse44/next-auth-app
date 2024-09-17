@@ -2,16 +2,20 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FaBars, FaTimes } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import DashboardNavbar from "./DashboardNavbar";
+import { FaBars, FaHome, FaTimes, FaUserFriends } from "react-icons/fa";
+import { AiOutlineProduct } from "react-icons/ai";
+import { RiDashboard3Line } from "react-icons/ri";
 
 const DashboardLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const pathname = usePathname();
   const { data } = useSession();
   console.log("session: ", data);
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -25,7 +29,7 @@ const DashboardLayout = ({ children }) => {
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } md:translate-x-0`}
       >
-        <div className="p-4 text-xl font-semibold  text-primary flex justify-between items-center">
+        <div className="p-4 ms-2 text-xl font-semibold  text-primary flex justify-between items-center">
           <Link href={"/dashboard"}>Dashboard</Link>
           {/* Close Button for Mobile */}
           <button className="md:hidden" onClick={toggleSidebar}>
@@ -34,16 +38,51 @@ const DashboardLayout = ({ children }) => {
         </div>
         <nav className="mt-6">
           <ul>
-            <li className="p-4 hover:bg-primary hover:text-white">
-              <Link href="/">Home</Link>
+            <li className="p-2">
+              <Link
+                href="/"
+                className="flex items-center gap-2 hover:bg-primary hover:text-white px-4 py-2 rounded-lg"
+              >
+                <FaHome size={20} /> Home
+              </Link>
             </li>
-            <li className="p-4 hover:bg-primary hover:text-white">
-              <Link href="/dashboard/add-product">Add Product</Link>
+
+            <li className="p-2">
+              <Link
+                href="/dashboard"
+                className={`${
+                  pathname === "/dashboard"
+                    ? "bg-primary text-white"
+                    : "bg-white"
+                } flex items-center gap-2 hover:bg-primary hover:text-white px-4 py-2 rounded-lg`}
+              >
+                <RiDashboard3Line size={20} /> Dashboard
+              </Link>
             </li>
-            <li className="p-4 hover:bg-primary hover:text-white">
-              <Link href="/dashboard/users">Users</Link>
+
+            <li className="p-2">
+              <Link
+                href="/dashboard/add-product"
+                className={`${
+                  pathname === "/dashboard/add-product"
+                    ? "bg-primary text-white"
+                    : "bg-white"
+                } flex items-center gap-2 hover:bg-primary hover:text-white px-4 py-2 rounded-lg`}
+              >
+                <AiOutlineProduct size={20} />
+                Add Product
+              </Link>
             </li>
-            {/* Add more items as necessary */}
+
+            <li className="p-2">
+              <Link
+                href="/dashboard/users"
+                className="flex items-center gap-2 hover:bg-primary hover:text-white px-4 py-2 rounded-lg"
+              >
+                <FaUserFriends size={20} />
+                Users
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
