@@ -10,6 +10,7 @@ const HandleProducts = ({ products, fetchData }) => {
   const session = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [loading, setLoading] = useState(false);
   const openModalWithItem = (item) => {
     setSelectedItem(item);
     setIsModalOpen(true);
@@ -25,23 +26,28 @@ const HandleProducts = ({ products, fetchData }) => {
 
   const handleDelete = async (id) => {
     let res;
-    const deleteBooking = async () => {
+    const deleteProduct = async () => {
       res = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/my-bookings/api/booking/${id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/dashboard/add-product/api/product/${id}`
       );
-      console.log(res);
+      console.log("delete response ", res);
       if (res.status === 200) {
+        setLoading(false);
         fetchData();
         Swal.fire({
           title: "Deleted!",
-          text: "Your booking has been deleted.",
+          text: "Your product has been deleted.",
           icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
         });
       } else {
         Swal.fire({
           title: "Error",
-          text: "Failed to delete booking",
+          text: "Failed to delete product",
           icon: "error",
+          showConfirmButton: false,
+          timer: 1500,
         });
       }
     };
@@ -56,12 +62,13 @@ const HandleProducts = ({ products, fetchData }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteBooking();
+        setLoading(true);
+        deleteProduct();
       }
     });
   };
 
-  const onSubmit = async (data) => {
+  const handleUpdate = async (data) => {
     const updateDoc = {
       phone: data.phone ? data.phone : selectedItem?.phone,
       address: data.address ? data.address : selectedItem?.address,
@@ -92,10 +99,10 @@ const HandleProducts = ({ products, fetchData }) => {
 
   return (
     <>
-      {!products.length ? (
+      {!products.length || loading ? (
         <p className="mt-5">Loading.....</p>
       ) : (
-        <div className="container mx-auto mt-2">
+        <div className=" mt-2">
           <div className="overflow-x-auto mt-10">
             <table className="table">
               {/* head */}
@@ -166,7 +173,7 @@ const HandleProducts = ({ products, fetchData }) => {
                 <h2 className="text-2xl font-bold mb-4">
                   Update Booking for {selectedItem.name}
                 </h2>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(handleUpdate)}>
                   <div className="mb-4">
                     <label
                       className="block text-sm font-medium text-gray-700"
