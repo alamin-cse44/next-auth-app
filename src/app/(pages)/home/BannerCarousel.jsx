@@ -37,10 +37,9 @@ const BannerCarousel = () => {
                 <Image
                   src={`/assets/images/banner/${index + 1}.jpg`}
                   alt="Slide 1"
-                  layout="fill"
-                  objectFit="cover"
+                  fill
                   quality={100}
-                  className="rounded-lg"
+                  className="rounded-lg object-cover"
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-start p-10 space-y-4 rounded-lg">
                   <h1 className="text-white lg:text-4xl text-2xl font-bold lg:w-[250px] lg:text-left">

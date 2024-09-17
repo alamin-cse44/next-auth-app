@@ -1,12 +1,28 @@
-"use client"
+"use client";
 
+import { useSession } from "next-auth/react";
 import { BsFillCartCheckFill } from "react-icons/bs";
+import Swal from "sweetalert2";
 
 const ProductsCard = ({ product }) => {
   const { name, image, price } = product;
+  const { data } = useSession();
   const handleAddToCart = () => {
-    // Add product to cart
-    console.log("Added to cart:", product);
+    if (data?.user?.name) {
+      Swal.fire({
+        title: "Excuse me!",
+        text: "Please sign up first.",
+        icon: "error",
+      });
+    }
+    const cartData = {
+      customerName: data?.user?.name,
+      customerEmail: data?.user?.email,
+      productName: name,
+      productPrice: price,
+      productImage: image,
+    };
+    console.log("Added to cart:", cartData);
   };
   return (
     <div className="card bg-base-100 shadow-lg border border-gray-200 rounded-lg relative">
@@ -29,7 +45,7 @@ const ProductsCard = ({ product }) => {
             type="radio"
             name="rating-1"
             className="mask mask-star-2 bg-orange-400"
-            checked
+            defaultChecked={true}
           />
           <input
             type="radio"

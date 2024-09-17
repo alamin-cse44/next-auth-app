@@ -22,9 +22,8 @@ const page = async ({ params }) => {
         <Image
           src={img} // Replace with your image path
           alt="Service Details Background"
-          layout="fill"
-          objectFit="cover"
-          className="rounded-lg"
+          fill
+          className="rounded-lg object-cover"
           priority // Loads the image quickly as it's likely above the fold
         />
 
