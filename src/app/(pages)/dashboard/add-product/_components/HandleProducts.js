@@ -103,7 +103,7 @@ const HandleProducts = ({ products, fetchData }) => {
         <p className="mt-5">Loading.....</p>
       ) : (
         <div className=" mt-2">
-          <div className="overflow-x-auto mt-10">
+          <div className="overflow-x-auto mt-10 sm:w-full w-[320px]">
             <table className="table">
               {/* head */}
               <thead>

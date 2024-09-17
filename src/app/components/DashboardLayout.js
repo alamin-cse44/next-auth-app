@@ -2,17 +2,21 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FaBars, FaTimes } from "react-icons/fa"; 
+import { FaBars, FaTimes } from "react-icons/fa";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const DashboardLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const pathname = usePathname();
+  const { data } = useSession();
+  console.log("session: ", data);
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen); 
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex">
       {/* Sidebar */}
       <div
         className={`fixed z-30 inset-y-0 left-0 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out 
@@ -21,7 +25,7 @@ const DashboardLayout = ({ children }) => {
           } md:translate-x-0`}
       >
         <div className="p-4 text-xl font-semibold bg-primary text-white flex justify-between items-center">
-          <span>Dashboard</span>
+          <Link href={"/dashboard"}>Dashboard</Link>
           {/* Close Button for Mobile */}
           <button className="md:hidden" onClick={toggleSidebar}>
             <FaTimes className="text-white text-xl" />
@@ -54,7 +58,13 @@ const DashboardLayout = ({ children }) => {
             <FaBars className="text-2xl" />
           </button>
         </header>
-
+        {pathname === "/dashboard" && (
+          <div className="container">
+            <h2 className="text-lg font-bold">
+              Welcome, <span className="text-primary">{data?.user?.name}</span>
+            </h2>
+          </div>
+        )}
         <main className="flex-1 p-6">{children}</main>
       </div>
     </div>

@@ -4,6 +4,7 @@ import React from 'react';
 const Page = () => {
     return (
         <div>
+            <h2>tEST TEXTING</h2>
             <DashboardLayout />
         </div>
     );

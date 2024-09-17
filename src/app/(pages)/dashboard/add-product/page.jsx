@@ -32,6 +32,8 @@ const AddProduct = () => {
     fetchData();
   }, []);
 
+  console.log("add products", products);
+
   const onSubmit = async (data) => {
     setLoading(true);
     const formData = new FormData();
@@ -97,96 +99,105 @@ const AddProduct = () => {
 
   return (
     <DashboardLayout>
-      <h1 className="text-2xl font-bold mb-4">Add Product</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Product Name */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Product Name</label>
-          <input
-            type="text"
-            {...register("productName", {
-              required: "Product Name is required",
-            })}
-            className="input input-bordered w-full"
-          />
-          {errors.productName && (
-            <p className="text-red-500 text-sm">{errors.productName.message}</p>
-          )}
-        </div>
-
-        {/* Product Image */}
-        <div className="mb-4 relative">
-          <label htmlFor="file" className="block mb-1">
-            Product picture
-          </label>
-          <input
-            id="file"
-            name="file"
-            type="file"
-            {...register("file", { required: "Picture is required" })}
-            className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-          />
-          {errors.file && (
-            <p className="text-red-500 text-sm">{errors.file.message}</p>
-          )}
-        </div>
-
-        {/* Product Price */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Price</label>
-          <input
-            type="number"
-            {...register("price", {
-              required: "Price is required",
-              min: { value: 1, message: "Price must be at least 1" },
-            })}
-            className="input input-bordered w-full"
-          />
-          {errors.price && (
-            <p className="text-red-500 text-sm">{errors.price.message}</p>
-          )}
-        </div>
-
-        {/* Offer Checkbox */}
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            id="offer"
-            onChange={(e) => setIsOffer(e.target.checked)}
-            className="checkbox checkbox-primary"
-          />
-          <label htmlFor="offer" className="ml-2">
-            This product has an offer
-          </label>
-        </div>
-
-        {/* Offer Percentage (Only visible if the offer is checked) */}
-        {isOffer && (
+      <div className="">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4 bg-gray-200 shadow-lg rounded p-6"
+        >
+          <h1 className="text-2xl font-bold mb-4">Add Product</h1>
+          {/* Product Name */}
           <div>
             <label className="block text-sm font-medium mb-1">
-              Offer Percentage
+              Product Name
             </label>
             <input
-              type="number"
-              {...register("offer", {
-                required: isOffer ? "Offer percentage is required" : false,
-                min: { value: 1, message: "Offer must be at least 1%" },
-                max: { value: 100, message: "Offer can't exceed 100%" },
+              type="text"
+              {...register("productName", {
+                required: "Product Name is required",
               })}
               className="input input-bordered w-full"
             />
-            {errors.offer && (
-              <p className="text-red-500 text-sm">{errors.offer.message}</p>
+            {errors.productName && (
+              <p className="text-red-500 text-sm">
+                {errors.productName.message}
+              </p>
             )}
           </div>
-        )}
 
-        {/* Submit Button */}
-        <button type="submit" className="btn btn-primary">
-          {loading ? "Loading..." : "Add Product"}
-        </button>
-      </form>
-      <HandleProducts products={products} fetchData={fetchData} />
+          {/* Product Image */}
+          <div className="mb-4 relative">
+            <label htmlFor="file" className="block mb-1">
+              Product picture
+            </label>
+            <input
+              id="file"
+              name="file"
+              type="file"
+              {...register("file", { required: "Picture is required" })}
+              className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            />
+            {errors.file && (
+              <p className="text-red-500 text-sm">{errors.file.message}</p>
+            )}
+          </div>
+
+          {/* Product Price */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Price</label>
+            <input
+              type="number"
+              {...register("price", {
+                required: "Price is required",
+                min: { value: 1, message: "Price must be at least 1" },
+              })}
+              className="input input-bordered w-full"
+            />
+            {errors.price && (
+              <p className="text-red-500 text-sm">{errors.price.message}</p>
+            )}
+          </div>
+
+          {/* Offer Checkbox */}
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="offer"
+              onChange={(e) => setIsOffer(e.target.checked)}
+              className="checkbox checkbox-primary"
+            />
+            <label htmlFor="offer" className="ml-2">
+              This product has an offer
+            </label>
+          </div>
+
+          {/* Offer Percentage (Only visible if the offer is checked) */}
+          {isOffer && (
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Offer Percentage
+              </label>
+              <input
+                type="number"
+                {...register("offer", {
+                  required: isOffer ? "Offer percentage is required" : false,
+                  min: { value: 1, message: "Offer must be at least 1%" },
+                  max: { value: 100, message: "Offer can't exceed 100%" },
+                })}
+                className="input input-bordered w-full"
+              />
+              {errors.offer && (
+                <p className="text-red-500 text-sm">{errors.offer.message}</p>
+              )}
+            </div>
+          )}
+
+          {/* Submit Button */}
+          <button type="submit" className="btn btn-primary">
+            {loading ? "Loading..." : "Add Product"}
+          </button>
+        </form>
+        <HandleProducts products={products} fetchData={fetchData} />
+      </div>
     </DashboardLayout>
   );
 };
