@@ -5,11 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { IoCartOutline } from "react-icons/io5";
+import Cart from "../(pages)/products/Cart";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const session = useSession();
-  // console.log("session", session);
+  const [openCanvas, setOpenCanvas] = useState(false);
+
+  const toggleOffCanvas = () => {
+    setOpenCanvas(!openCanvas);
+  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -99,7 +104,11 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="flex items-center gap-4 cursor-pointer">
-            <IoCartOutline size={25} />
+            <div>
+              <IoCartOutline onClick={toggleOffCanvas} size={25} />
+
+              <Cart openCanvas={openCanvas} toggleOffCanvas={toggleOffCanvas} />
+            </div>
             <Link href="api/auth/signup">
               <button className="btn btn-primary btn-outline rounded-md btn-md">
                 Appointment
