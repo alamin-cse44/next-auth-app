@@ -18,9 +18,8 @@ const HandleProducts = ({ products, fetchData }) => {
 
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
-      phone: selectedItem?.phone,
-      address: selectedItem?.address,
-      date: new Date().toISOString().split("T")[0],
+      name: selectedItem?.name,
+      price: selectedItem?.price,
     },
   });
 
@@ -69,13 +68,13 @@ const HandleProducts = ({ products, fetchData }) => {
   };
 
   const handleUpdate = async (data) => {
+    setLoading(true);
     const updateDoc = {
-      phone: data.phone ? data.phone : selectedItem?.phone,
-      address: data.address ? data.address : selectedItem?.address,
-      date: data.date,
+      name: data.name ? data.name : selectedItem?.name,
+      price: data.price ? data.price : selectedItem?.price,
     };
     const update = await axios.patch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/my-bookings/api/booking/${selectedItem._id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/dashboard/add-product/api/product/${selectedItem._id}`,
       updateDoc,
       {
         headers: { "Content-Type": "application/json" },
@@ -85,10 +84,11 @@ const HandleProducts = ({ products, fetchData }) => {
     fetchData();
     console.log("Form Data:", update);
     if (update.data.data.modifiedCount > 0) {
+      setLoading(false);
       Swal.fire({
         position: "top-end",
         icon: "success",
-        title: "Your booking is successfully updated",
+        title: "Your product is successfully updated",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -171,21 +171,21 @@ const HandleProducts = ({ products, fetchData }) => {
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
               <div className="modal-box w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold mb-4">
-                  Update Booking for {selectedItem.name}
+                  Update Product for {selectedItem.name}
                 </h2>
                 <form onSubmit={handleSubmit(handleUpdate)}>
                   <div className="mb-4">
                     <label
                       className="block text-sm font-medium text-gray-700"
-                      htmlFor="phone"
+                      htmlFor="name"
                     >
-                      Phone
+                      Name
                     </label>
                     <input
                       type="text"
-                      id="phone"
-                      {...register("phone")}
-                      placeholder={selectedItem?.phone}
+                      id="name"
+                      {...register("name")}
+                      placeholder={selectedItem?.name}
                       className="input input-bordered w-full mt-1 focus:outline-none"
                     />
                   </div>
@@ -194,31 +194,33 @@ const HandleProducts = ({ products, fetchData }) => {
                       className="block text-sm font-medium text-gray-700"
                       htmlFor="address"
                     >
-                      Address
+                      Price
                     </label>
                     <input
-                      type="address"
-                      id="address"
-                      {...register("address")}
-                      placeholder={selectedItem?.address}
+                      type="number"
+                      {...register("price", {
+                        min: { value: 1, message: "Price must be at least 1" },
+                      })}
+                      placeholder={selectedItem?.price}
                       className="input input-bordered w-full mt-1 focus:outline-none"
                     />
                   </div>
-                  <div className="mb-4">
+                  {/* <div className="mb-4">
                     <label
                       className="block text-sm font-medium text-gray-700"
                       htmlFor="date"
                     >
-                      Date
+                      Image
                     </label>
                     <input
-                      type="date"
-                      id="date"
-                      {...register("date")}
-                      placeholder="Date"
-                      className="input input-bordered w-full mt-1 focus:outline-none"
+                      id="file"
+                      name="file"
+                      type="file"
+                      {...register("file", { required: "Picture is required" })}
+                      placeholder={selectedItem?.image}
+                      className="input input-bordered w-full mt-1 py-2 focus:outline-none"
                     />
-                  </div>
+                  </div> */}
                   <div className="flex justify-end">
                     <button
                       type="button"
@@ -228,7 +230,7 @@ const HandleProducts = ({ products, fetchData }) => {
                       Cancel
                     </button>
                     <button type="submit" className="btn btn-primary">
-                      Submit
+                      {loading ? "Wait for updating" : "Submit"}
                     </button>
                   </div>
                 </form>

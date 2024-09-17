@@ -40,9 +40,9 @@ export const PATCH = async (request, { params }) => {
   const db = await connectDB();
   const updateDoc = await request.json();
   console.log("update doc: ", updateDoc);
-  const bookingCollection = db.collection("bookings");
+  const productCollection = db.collection("products");
   try {
-    const booking = await bookingCollection.updateOne(
+    const res = await productCollection.updateOne(
       {
         _id: new ObjectId(params.id),
       },
@@ -51,10 +51,10 @@ export const PATCH = async (request, { params }) => {
     );
     return NextResponse.json({
       status: 200,
-      message: "booking is updated successfully",
-      data: booking,
+      message: "product is updated successfully",
+      data: res,
     });
   } catch (error) {
-    return NextResponse.status(500).json({ message: "Error finding booking" });
+    return NextResponse.status(500).json({ message: "Error updating product" });
   }
 };
