@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useSession } from "next-auth/react";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import Swal from "sweetalert2";
@@ -8,12 +9,13 @@ const ProductsCard = ({ product }) => {
   const { name, image, price } = product;
   const { data } = useSession();
   const handleAddToCart = () => {
-    if (data?.user?.name) {
+    if (!data?.user?.name) {
       Swal.fire({
         title: "Excuse me!",
         text: "Please sign up first.",
         icon: "error",
       });
+      return;
     }
     const cartData = {
       customerName: data?.user?.name,
@@ -23,6 +25,37 @@ const ProductsCard = ({ product }) => {
       productImage: image,
     };
     console.log("Added to cart:", cartData);
+    const res = axios
+      .post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/api/add-to-cart`,
+        cartData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        console.log("booking response:", response.data);
+        if (response.data.data) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your product is added to cart",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      })
+      .catch((err) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: err.message,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
   };
   return (
     <div className="card bg-base-100 shadow-lg border border-gray-200 rounded-lg relative">

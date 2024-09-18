@@ -4,7 +4,6 @@ import { getProducts } from "@/services/getProducts";
 
 const Product = async () => {
   const data = await getProducts();
-  console.log("axios data", data.data);
   return (
     <section className="py-16 container">
       <div className="text-center mb-12 flex flex-col gap-4">

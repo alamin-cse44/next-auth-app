@@ -1,6 +1,34 @@
-import React from "react";
+"use client";
+
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import React, { useEffect, useState } from "react";
 
 const Cart = ({ openCanvas, toggleOffCanvas }) => {
+  const [carts, setCarts] = useState([]);
+  const session = useSession();
+  const fetchData = async () => {
+    try {
+      const res = await axios
+        .get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/api/${session?.data?.user?.email}`
+        )
+        .then((response) => {
+          console.log("carts", response.data.data);
+          setCarts(response?.data?.data || []);
+        });
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (!session?.data?.user?.email) {
+      return;
+    }
+
+    fetchData();
+  }, [session?.data?.user?.email]);
   return (
     <>
       {/* Off-canvas overlay */}
@@ -13,17 +41,14 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
 
       {/* Off-canvas content (Right side) */}
       <div
-        className={`fixed top-0 right-0 z-50 w-64 h-full bg-white shadow-lg transform transition-transform ease-in-out duration-300 ${
+        className={`fixed top-0 right-0 z-50 w-80 h-full bg-white shadow-lg transform transition-transform ease-in-out duration-300 ${
           openCanvas ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/* Close button */}
         <div className="flex items-center justify-between p-2">
           <h2 className="text-xl font-bold ">Cart</h2>
-          <button
-            className="btn btn-sm btn-primary "
-            onClick={toggleOffCanvas}
-          >
+          <button className="btn btn-sm btn-primary " onClick={toggleOffCanvas}>
             Close
           </button>
         </div>
@@ -32,33 +57,7 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
 
         {/* Off-canvas content, scrollable */}
         <div className="p-4 overflow-y-auto h-[calc(100vh-50px)]">
-          <ul>
-            <li className="py-2">
-              <a href="#item1" className="link link-hover">
-                Menu Item 1
-              </a>
-            </li>
-            <li className="py-2">
-              <a href="#item2" className="link link-hover">
-                Menu Item 2
-              </a>
-            </li>
-            <li className="py-2">
-              <a href="#item3" className="link link-hover">
-                Menu Item 3
-              </a>
-            </li>
-            <li className="py-2">
-              <a href="#item4" className="link link-hover">
-                Menu Item 4
-              </a>
-            </li>
-            <li className="py-2">
-              <a href="#item5" className="link link-hover">
-                Menu Item 5
-              </a>
-            </li>
-          </ul>
+          {carts.length}
         </div>
       </div>
     </>
