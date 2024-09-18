@@ -103,9 +103,13 @@ const Navbar = () => {
               Dashboard
             </Link>
           </div>
-          <div className="flex items-center gap-4 cursor-pointer">
+          <div className="flex items-center gap-4">
             <div>
-              <IoCartOutline onClick={toggleOffCanvas} size={25} />
+              <IoCartOutline
+                onClick={toggleOffCanvas}
+                className="cursor-pointer"
+                size={25}
+              />
 
               <Cart openCanvas={openCanvas} toggleOffCanvas={toggleOffCanvas} />
             </div>
