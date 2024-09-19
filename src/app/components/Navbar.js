@@ -6,11 +6,18 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { IoCartOutline } from "react-icons/io5";
 import Cart from "../(pages)/products/Cart";
+import { useCartQuery } from "@/services/useCart";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const session = useSession();
   const [openCanvas, setOpenCanvas] = useState(false);
+
+  const { data: cartItems, isLoading } = useCartQuery(session);
+
+  console.log("cartts length: ", cartItems?.length);
+
+  if (isLoading) return null;
 
   const toggleOffCanvas = () => {
     setOpenCanvas(!openCanvas);
