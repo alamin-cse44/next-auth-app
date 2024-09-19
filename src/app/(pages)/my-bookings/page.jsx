@@ -12,6 +12,7 @@ const Page = () => {
   const [bookings, setBookings] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  
   const openModalWithItem = (item) => {
     setSelectedItem(item);
     setIsModalOpen(true);
