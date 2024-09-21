@@ -114,7 +114,7 @@ const Navbar = () => {
                 <IoCartOutline size={35} />
 
                 <div className="badge badge-primary badge-lg text-white">
-                  {isLoading ? "0" : <span>{cartItems.length}</span>}
+                  {isLoading ? "0" : <span>{cartItems?.length}</span>}
                 </div>
               </button>
 

@@ -7,7 +7,7 @@ import { MdDelete } from "react-icons/md";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import { useCartQuery } from "@/services/useCart";
+import { useCartQuery, useDeleteCartMutation } from "@/services/useCart";
 
 const Cart = ({ openCanvas, toggleOffCanvas }) => {
   const session = useSession();
@@ -23,7 +23,8 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
   });
 
   const { data: cartItems, isLoading } = useCartQuery(session);
-
+  const deleteCartMutation = useDeleteCartMutation();
+  const [deleteResponse, setDeleteResponse] = useState(null);
   console.log("cartts length: ", cartItems?.length);
 
   useEffect(() => {
@@ -32,41 +33,36 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
     }
   }, [session?.data?.user?.email]);
 
-  const handleDelete = async (id) => {
-    // let res;
-    // const deleteBooking = async () => {
-    //   res = await axios.delete(
-    //     `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/api/product/${id}`
-    //   );
-    //   console.log(res);
-    //   if (res.status === 200) {
-    //     fetchData();
-    //     Swal.fire({
-    //       title: "Deleted!",
-    //       text: "Your item has been deleted.",
-    //       icon: "success",
-    //     });
-    //   } else {
-    //     Swal.fire({
-    //       title: "Error",
-    //       text: "Failed to delete booking",
-    //       icon: "error",
-    //     });
-    //   }
-    // };
-    // Swal.fire({
-    //   title: "Are you sure?",
-    //   text: "You won't be able to revert this!",
-    //   icon: "warning",
-    //   showCancelButton: true,
-    //   confirmButtonColor: "#3085d6",
-    //   cancelButtonColor: "#d33",
-    //   confirmButtonText: "Yes, delete it!",
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     deleteBooking();
-    //   }
-    // });
+  const handleDelete = async (productId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteCartMutation.mutate(productId, {
+          onSuccess: (data) => {
+            setDeleteResponse(data.message);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your item deleted successfully.",
+              icon: "success",
+            });
+          },
+          onError: (error) => {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Failed to deleted item.",
+              icon: "success",
+            });
+          },
+        });
+      }
+    });
   };
 
   const handleOrder = async (data) => {
@@ -142,7 +138,7 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
                 </thead>
                 <tbody>
                   {/* row 1 */}
-                  {cartItems.map((item, idx) => (
+                  {cartItems?.map((item, idx) => (
                     <tr key={item._id}>
                       <td>
                         <div className="flex items-center gap-3">

@@ -40,3 +40,25 @@ export const useAddCartMutation = () => {
     },
   });
 };
+
+// Delete from Cart
+const deleteCartItem = async (productId) => {
+  const response = await axios.delete(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/api/product/${productId}`
+  );
+  return response.data;
+};
+
+export const useDeleteCartMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteCartItem, // Pass function in object syntax
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cart"]);
+    },
+    onError: (error) => {
+      console.error("Failed to delete cart item", error);
+    },
+  });
+};
