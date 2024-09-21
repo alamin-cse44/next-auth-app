@@ -10,7 +10,6 @@ import Swal from "sweetalert2";
 import { useCartQuery } from "@/services/useCart";
 
 const Cart = ({ openCanvas, toggleOffCanvas }) => {
-  const [carts, setCarts] = useState([]);
   const session = useSession();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,27 +26,10 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
 
   console.log("cartts length: ", cartItems?.length);
 
-  const fetchData = async () => {
-    try {
-      const res = await axios
-        .get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/api/${session?.data?.user?.email}`
-        )
-        .then((response) => {
-          console.log("carts", response.data.data);
-          setCarts(response?.data?.data || []);
-        });
-    } catch (error) {
-      console.error("Error fetching services:", error);
-    }
-  };
-
   useEffect(() => {
     if (!session?.data?.user?.email) {
       return;
     }
-
-    fetchData();
   }, [session?.data?.user?.email]);
 
   const handleDelete = async (id) => {
@@ -134,7 +116,9 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
       >
         {/* Close button */}
         <div className="flex items-center justify-between p-2">
-          <h2 className="text-xl font-bold ">Cart items : {cartItems?.length}</h2>
+          <h2 className="text-xl font-bold ">
+            Cart items : {cartItems?.length}
+          </h2>
           <button className="btn btn-sm btn-primary " onClick={toggleOffCanvas}>
             Close
           </button>
@@ -203,7 +187,7 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
             <div className="">
               <h2 className="text-lg font-bold">
                 Sub Total Price :{" "}
-                {carts.reduce(
+                {cartItems?.reduce(
                   (acc, curr) => acc + parseFloat(curr.productPrice),
                   0
                 )}
