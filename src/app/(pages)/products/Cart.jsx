@@ -11,7 +11,6 @@ import { useCartQuery, useDeleteCartMutation } from "@/services/useCart";
 
 const Cart = ({ openCanvas, toggleOffCanvas }) => {
   const session = useSession();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModalWithItem = () => {
@@ -66,30 +65,44 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
   };
 
   const handleOrder = async (data) => {
-    // const updateDoc = {
-    //   phone: data.phone ? data.phone : selectedItem?.phone,
-    //   address: data.address ? data.address : selectedItem?.address,
-    //   date: data.date,
-    // };
-    // const update = await axios.patch(
-    //   `${process.env.NEXT_PUBLIC_API_BASE_URL}/my-bookings/api/booking/${selectedItem._id}`,
-    //   updateDoc,
-    //   {
-    //     headers: { "Content-Type": "application/json" },
-    //   }
-    // );
-
-    // fetchData();
-    // console.log("Form Data:", update);
-    // if (update.data.data.modifiedCount > 0) {
-    //   Swal.fire({
-    //     position: "top-end",
-    //     icon: "success",
-    //     title: "Your booking is successfully updated",
-    //     showConfirmButton: false,
-    //     timer: 1500,
-    //   });
-    // }
+    const newOrder = {
+      name: session?.data?.user?.name,
+      email: session?.data?.user?.email,
+      phone: data.phone,
+      address: data.address,
+      products: [...cartItems],
+    };
+    const res = axios
+      .post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/dashboard/orders/api/new-order`,
+        newOrder,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        if (response.data.data) {
+          // setLoading(false);
+          reset();
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "order is added successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
     reset();
     setIsModalOpen(false);
   };
@@ -215,7 +228,25 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
                   type="text"
                   id="phone"
                   {...register("phone")}
-                  placeholder=""
+                  placeholder="Your phone number"
+                  required
+                  className="input input-bordered w-full mt-1 focus:outline-none"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label
+                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="address"
+                >
+                  Address
+                </label>
+                <input
+                  type="text"
+                  id="address"
+                  {...register("address")}
+                  placeholder="Your address"
+                  required
                   className="input input-bordered w-full mt-1 focus:outline-none"
                 />
               </div>

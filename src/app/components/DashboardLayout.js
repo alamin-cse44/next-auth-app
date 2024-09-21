@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import DashboardNavbar from "./DashboardNavbar";
-import { FaBars, FaHome, FaTimes, FaUserFriends } from "react-icons/fa";
+import { FaBars, FaHome, FaJediOrder, FaTimes, FaUserFriends } from "react-icons/fa";
 import { AiOutlineProduct } from "react-icons/ai";
 import { RiDashboard3Line } from "react-icons/ri";
 
@@ -71,6 +71,20 @@ const DashboardLayout = ({ children }) => {
               >
                 <AiOutlineProduct size={20} />
                 Add Product
+              </Link>
+            </li>
+
+            <li className="p-2">
+              <Link
+                href="/dashboard/orders"
+                className={`${
+                  pathname === "/dashboard/orders"
+                    ? "bg-primary text-white"
+                    : "bg-white"
+                } flex items-center gap-2 hover:bg-primary hover:text-white px-4 py-2 rounded-lg`}
+              >
+                <FaJediOrder size={20} />
+                My Orders
               </Link>
             </li>
 
