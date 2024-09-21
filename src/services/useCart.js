@@ -12,8 +12,8 @@ const fetchCart = async ({ queryKey }) => {
 
 export const useCartQuery = (session) => {
   return useQuery({
-    queryKey: ["cart", session], // Pass session as part of the queryKey
-    queryFn: fetchCart, // Correctly pass the query function
+    queryKey: ["cart", session], 
+    queryFn: fetchCart, 
     staleTime: 0,
   });
 };

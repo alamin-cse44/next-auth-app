@@ -17,8 +17,6 @@ const Navbar = () => {
 
   console.log("cartts length: ", cartItems?.length);
 
-  if (isLoading) return null;
-
   const toggleOffCanvas = () => {
     setOpenCanvas(!openCanvas);
   };
@@ -112,11 +110,13 @@ const Navbar = () => {
           </div>
           <div className="flex items-center gap-4">
             <div>
-              <IoCartOutline
-                onClick={toggleOffCanvas}
-                className="cursor-pointer"
-                size={25}
-              />
+              <button onClick={toggleOffCanvas} className="cursor-pointer flex">
+                <IoCartOutline size={35} />
+
+                <div className="badge badge-primary badge-lg text-white">
+                  {isLoading ? "0" : <span>{cartItems.length}</span>}
+                </div>
+              </button>
 
               <Cart openCanvas={openCanvas} toggleOffCanvas={toggleOffCanvas} />
             </div>

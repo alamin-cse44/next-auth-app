@@ -7,6 +7,7 @@ import { MdDelete } from "react-icons/md";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { useCartQuery } from "@/services/useCart";
 
 const Cart = ({ openCanvas, toggleOffCanvas }) => {
   const [carts, setCarts] = useState([]);
@@ -21,6 +22,10 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {},
   });
+
+  const { data: cartItems, isLoading } = useCartQuery(session);
+
+  console.log("cartts length: ", cartItems?.length);
 
   const fetchData = async () => {
     try {
@@ -46,41 +51,40 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
   }, [session?.data?.user?.email]);
 
   const handleDelete = async (id) => {
-    let res;
-    const deleteBooking = async () => {
-      res = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/api/product/${id}`
-      );
-      console.log(res);
-      if (res.status === 200) {
-        fetchData();
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your item has been deleted.",
-          icon: "success",
-        });
-      } else {
-        Swal.fire({
-          title: "Error",
-          text: "Failed to delete booking",
-          icon: "error",
-        });
-      }
-    };
-
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleteBooking();
-      }
-    });
+    // let res;
+    // const deleteBooking = async () => {
+    //   res = await axios.delete(
+    //     `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/api/product/${id}`
+    //   );
+    //   console.log(res);
+    //   if (res.status === 200) {
+    //     fetchData();
+    //     Swal.fire({
+    //       title: "Deleted!",
+    //       text: "Your item has been deleted.",
+    //       icon: "success",
+    //     });
+    //   } else {
+    //     Swal.fire({
+    //       title: "Error",
+    //       text: "Failed to delete booking",
+    //       icon: "error",
+    //     });
+    //   }
+    // };
+    // Swal.fire({
+    //   title: "Are you sure?",
+    //   text: "You won't be able to revert this!",
+    //   icon: "warning",
+    //   showCancelButton: true,
+    //   confirmButtonColor: "#3085d6",
+    //   cancelButtonColor: "#d33",
+    //   confirmButtonText: "Yes, delete it!",
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     deleteBooking();
+    //   }
+    // });
   };
 
   const handleOrder = async (data) => {
@@ -130,7 +134,7 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
       >
         {/* Close button */}
         <div className="flex items-center justify-between p-2">
-          <h2 className="text-xl font-bold ">Cart items : {carts.length}</h2>
+          <h2 className="text-xl font-bold ">Cart items : {cartItems?.length}</h2>
           <button className="btn btn-sm btn-primary " onClick={toggleOffCanvas}>
             Close
           </button>
@@ -140,10 +144,10 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
 
         {/* Off-canvas content, scrollable */}
         <div className="px-4 overflow-y-auto h-[calc(100vh-50px)] relative">
-          {!carts.length ? (
+          {isLoading ? (
             <h1 className="mt-0">Loading.....</h1>
           ) : (
-            <div className="overflow-x-auto mt-0">
+            <div className="overflow-x-auto mt-0 h-[380px]">
               <table className="table">
                 {/* head */}
                 <thead>
@@ -154,7 +158,7 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
                 </thead>
                 <tbody>
                   {/* row 1 */}
-                  {carts.map((item, idx) => (
+                  {cartItems.map((item, idx) => (
                     <tr key={item._id}>
                       <td>
                         <div className="flex items-center gap-3">
