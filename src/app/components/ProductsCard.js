@@ -21,7 +21,7 @@ const ProductsCard = ({ product }) => {
     }
     const cartData = {
       customerName: data?.user?.name,
-      customerEmail: data?.user?.email,
+      email: data?.user?.email,
       productName: name,
       productPrice: price,
       productImage: image,

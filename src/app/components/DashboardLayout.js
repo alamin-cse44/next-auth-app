@@ -5,9 +5,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import DashboardNavbar from "./DashboardNavbar";
-import { FaBars, FaHome, FaJediOrder, FaTimes, FaUserFriends } from "react-icons/fa";
+import {
+  FaBars,
+  FaHome,
+  FaJediOrder,
+  FaTimes,
+  FaUserFriends,
+} from "react-icons/fa";
 import { AiOutlineProduct } from "react-icons/ai";
 import { RiDashboard3Line } from "react-icons/ri";
+import { VscListUnordered } from "react-icons/vsc";
+import UserProfile from "./UserProfile";
 
 const DashboardLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -90,13 +98,27 @@ const DashboardLayout = ({ children }) => {
 
             <li className="p-2">
               <Link
+                href="/dashboard/all-orders"
+                className={`${
+                  pathname === "/dashboard/all-orders"
+                    ? "bg-primary text-white"
+                    : "bg-white"
+                } flex items-center gap-2 hover:bg-primary hover:text-white px-4 py-2 rounded-lg`}
+              >
+                <VscListUnordered size={20} />
+                All Orders
+              </Link>
+            </li>
+
+            {/* <li className="p-2">
+              <Link
                 href="/dashboard/users"
                 className="flex items-center gap-2 hover:bg-primary hover:text-white px-4 py-2 rounded-lg"
               >
                 <FaUserFriends size={20} />
                 Users
               </Link>
-            </li>
+            </li> */}
           </ul>
         </nav>
       </div>
@@ -118,9 +140,10 @@ const DashboardLayout = ({ children }) => {
         </div>
         {pathname === "/dashboard" && (
           <div className="container bg-gray-200 h-screen">
-            <h2 className="text-lg font-bold mt-3">
+            <h2 className="text-lg font-bold my-4">
               Welcome, <span className="text-primary">{data?.user?.name}</span>
             </h2>
+            <UserProfile user={data?.user} />
           </div>
         )}
         <main className="flex-1 p-6 bg-gray-200">{children}</main>

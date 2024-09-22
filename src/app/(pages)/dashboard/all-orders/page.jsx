@@ -23,7 +23,7 @@ const page = () => {
     try {
       const res = await axios
         .get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dashboard/orders/api/${session?.data?.user?.email}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dashboard/all-orders/api/get-all`
         )
         .then((response) => {
           console.log("orders", response);
@@ -151,7 +151,9 @@ const page = () => {
                                   </div>
                                 </div>
                                 <div>
-                                  <div className="font-bold">{item.productName}</div>
+                                  <div className="font-bold">
+                                    {item.productName}
+                                  </div>
                                 </div>
                               </div>
                             </td>

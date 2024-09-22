@@ -12,7 +12,7 @@ const Page = () => {
   const [bookings, setBookings] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  
+
   const openModalWithItem = (item) => {
     setSelectedItem(item);
     setIsModalOpen(true);
@@ -139,7 +139,10 @@ const Page = () => {
         </div>
       </div>
       {!bookings.length ? (
-        <h1 className="mt-3">Loading.....</h1>
+        <h1 className="mt-3">
+          You have no booked services! <br /> If you have booked please wait for
+          while....
+        </h1>
       ) : (
         <div className="overflow-x-auto mt-10">
           <table className="table">
