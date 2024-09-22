@@ -8,6 +8,7 @@ import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useCartQuery, useDeleteCartMutation } from "@/services/useCart";
+import { useOrderMutation } from "@/services/order";
 
 const Cart = ({ openCanvas, toggleOffCanvas }) => {
   const session = useSession();
@@ -23,6 +24,7 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
 
   const { data: cartItems, isLoading } = useCartQuery(session);
   const deleteCartMutation = useDeleteCartMutation();
+  const orderMutation = useOrderMutation();
   const [deleteResponse, setDeleteResponse] = useState(null);
   console.log("cartts length: ", cartItems?.length);
 
@@ -72,20 +74,16 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
       address: data.address,
       products: [...cartItems],
     };
-    const res = axios
-      .post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/dashboard/orders/api/new-order`,
-        newOrder,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        if (response.data.data) {
-          // setLoading(false);
-          reset();
+
+    orderMutation.mutate(
+      {
+        email: session?.data?.user?.email,
+        cartItems: cartItems,
+        orderDetails: newOrder,
+      },
+      {
+        // Handle success response
+        onSuccess: (response) => {
           Swal.fire({
             position: "top-end",
             icon: "success",
@@ -93,7 +91,9 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
             showConfirmButton: false,
             timer: 1500,
           });
-        } else {
+        },
+        // Handle error response
+        onError: (error) => {
           Swal.fire({
             position: "top-end",
             icon: "error",
@@ -101,8 +101,10 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
             showConfirmButton: false,
             timer: 1500,
           });
-        }
-      });
+        },
+      }
+    );
+
     reset();
     setIsModalOpen(false);
   };

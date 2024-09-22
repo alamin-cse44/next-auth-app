@@ -1,22 +1,23 @@
 import connectDB from "@/lib/connectDB";
 import { NextResponse } from "next/server";
 
-export const POST = async (request) => {
+export const DELETE = async (request, { params }) => {
   const db = await connectDB();
-  const orderData = await request.json();
+  const cartCollection = db.collection("carts");
   try {
-    const orderCollection = await db.collection("orders");
-    const newOrder = await orderCollection.insertOne(orderData);
+    const res = await cartCollection.deleteMany({
+      email: params.email,
+    });
     return NextResponse.json({
       status: 200,
-      message: "Your order added successfully",
-      data: newOrder,
+      message: "Cart items are found",
+      data: res,
     });
   } catch (error) {
     return NextResponse.json({
       status: 400,
       message: "Something went wrong",
-      error : error
+      error: error,
     });
   }
 };

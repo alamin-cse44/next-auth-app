@@ -120,11 +120,6 @@ const Navbar = () => {
 
               <Cart openCanvas={openCanvas} toggleOffCanvas={toggleOffCanvas} />
             </div>
-            <Link href="api/auth/signup">
-              <button className="btn btn-primary btn-outline rounded-md btn-md">
-                Appointment
-              </button>
-            </Link>
             {!session?.data?.user ? (
               <div className="flex items-center">
                 <Link href="/login">
@@ -135,9 +130,7 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="flex items-center">
-                <p>
-                  {session.data.user.name} - {session.data.user.type}
-                </p>
+                <p className="hidden md:block mr-1">{session.data.user.name}</p>
                 <Link onClick={() => signOut()} href="/">
                   <button className="btn btn-primary">Logout</button>
                 </Link>
