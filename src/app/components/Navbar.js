@@ -96,13 +96,13 @@ const Navbar = () => {
               About
             </Link>
             <Link
-              href="/my-bookings"
+              href={`${session?.data?.user ? "/my-bookings" : "/login"}`}
               className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
             >
               My Bookings
             </Link>
             <Link
-              href="/dashboard"
+              href={`${session?.data?.user ? "/dashboard" : "/login"}`}
               className="text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
             >
               Dashboard
