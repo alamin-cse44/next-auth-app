@@ -1,6 +1,14 @@
 "use client";
 
+import { useCartQuery } from "@/services/useCart";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+
 const DashboardNavbar = () => {
+  const session = useSession();
+  // console.log("navbar session", session);
+  const { data: cartItems, isLoading } = useCartQuery(session);
   return (
     <>
       <div className="navbar bg-base-100 md:shadow-lg container">
@@ -29,7 +37,9 @@ const DashboardNavbar = () => {
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
-                <span className="badge badge-sm indicator-item">8</span>
+                <span className="badge badge-sm indicator-item">
+                  {cartItems?.length}
+                </span>
               </div>
             </div>
             <div
@@ -37,8 +47,16 @@ const DashboardNavbar = () => {
               className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
             >
               <div className="card-body">
-                <span className="text-lg font-bold">8 Items</span>
-                <span className="text-info">Subtotal: $999</span>
+                <span className="text-lg font-bold">
+                  {cartItems?.length} Items
+                </span>
+                <span className="text-info">
+                  Subtotal:{" "}
+                  {cartItems?.reduce(
+                    (acc, curr) => acc + parseFloat(curr.productPrice),
+                    0
+                  )}
+                </span>
                 <div className="card-actions">
                   <button className="btn btn-primary btn-block">
                     View cart
@@ -54,9 +72,12 @@ const DashboardNavbar = () => {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                <Image
+                  src={session?.data?.user?.image} // Change the src to your image
+                  alt="Profile Image"
+                  width={100}
+                  height={100}
+                  className="rounded-full border-4 border-white shadow-md"
                 />
               </div>
             </div>
@@ -74,7 +95,10 @@ const DashboardNavbar = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <Link onClick={() => signOut()} href="/">
+                  <button className="btn btn-sm btn-primary">Logout</button>
+                </Link>
+                {/* <a>Logout</a> */}
               </li>
             </ul>
           </div>
