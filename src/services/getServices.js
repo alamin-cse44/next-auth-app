@@ -8,7 +8,6 @@ export const getServices = async () => {
 
     return res.data;
   } catch (error) {
-    console.error("Error fetching data:", error);
     return [];
   }
 };
@@ -20,7 +19,6 @@ export const getServiceById = async (id) => {
     );
     return res.data;
   } catch (error) {
-    console.error("Error fetching data:", error);
     return [];
   }
 };
