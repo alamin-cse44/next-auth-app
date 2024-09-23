@@ -66,12 +66,22 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
     });
   };
 
+  let cartPrice = cartItems?.reduce(
+    (acc, curr) => acc + parseFloat(curr.productPrice),
+    0
+  );
   const handleOrder = async (data) => {
+    if (data.type === "inside_dhaka") {
+      cartPrice += 50;
+    } else {
+      cartPrice += 100;
+    }
     const newOrder = {
       name: session?.data?.user?.name,
       email: session?.data?.user?.email,
       phone: data.phone,
       address: data.address,
+      total: cartPrice,
       products: [...cartItems],
     };
 
@@ -203,12 +213,14 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
                   0
                 )}
               </h2>
-              <button
-                onClick={() => openModalWithItem()}
-                className="btn btn-primary btn-block mt-4"
-              >
-                Checkout
-              </button>
+              {cartItems?.length && (
+                <button
+                  onClick={() => openModalWithItem()}
+                  className="btn btn-primary btn-block mt-4"
+                >
+                  Checkout
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -218,6 +230,7 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="modal-box w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold mb-4">Your Information</h2>
+
             <form onSubmit={handleSubmit(handleOrder)}>
               <div className="mb-4">
                 <label
@@ -251,6 +264,24 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
                   required
                   className="input input-bordered w-full mt-1 focus:outline-none"
                 />
+              </div>
+
+              <div className="mb-4">
+                <label
+                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="address"
+                >
+                  Shipping Fee
+                </label>
+                <select
+                  id="type"
+                  {...register("type")}
+                  required
+                  className="w-full p-2 border rounded"
+                >
+                  <option value="inside_dhaka">Inside Dhaka</option>
+                  <option value="outside_dhaka">Outside Dhaka</option>
+                </select>
               </div>
 
               <div className="flex justify-end">

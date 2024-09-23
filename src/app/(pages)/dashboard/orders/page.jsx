@@ -41,6 +41,7 @@ const Page = () => {
 
     fetchData();
   }, [session?.data?.user?.email]);
+  console.log("orders", products);
   return (
     <DashboardLayout>
       <div className="h-screen">
@@ -62,6 +63,7 @@ const Page = () => {
                     <th>Name</th>
                     <th>Phone</th>
                     <th>Address</th>
+                    <th>Total</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -85,6 +87,7 @@ const Page = () => {
                       <td>{product.name}</td>
                       <td>{product.phone}</td>
                       <td>{product.address}</td>
+                      <td>{product.total}</td>
                       <th>
                         {/* <div className="flex gap-2 items-center">
                           <button

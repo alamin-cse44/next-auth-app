@@ -24,6 +24,17 @@ const HandleProducts = ({ products, fetchData }) => {
   });
 
   const handleDelete = async (id) => {
+    if (!session?.data?.user?.type === "admin" || !session?.data?.user?.type) {
+      Swal.fire({
+        title: "Error",
+        text: "You are not allowed to delete",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return;
+    }
+
     let res;
     const deleteProduct = async () => {
       res = await axios.delete(
