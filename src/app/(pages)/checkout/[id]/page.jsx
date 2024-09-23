@@ -143,134 +143,142 @@ const Checkout = ({ params }) => {
           </div>
         </div>
       </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full mt-10 mx-auto p-6 lg:py-16 lg:px-32 bg-gray-100 rounded-md"
-      >
-        <div className="grid lg:grid-cols-2 gap-6">
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Name
-            </label>
-            <input
-              id="name"
-              {...register("name", { required: true })}
-              placeholder="Name"
-              className="p-2 w-full border rounded-md focus:outline-none"
-            />
-            {errors.name && (
-              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-            )}
+      {session?.data?.user ? (
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-full mt-10 mx-auto p-6 lg:py-16 lg:px-32 bg-gray-100 rounded-md"
+        >
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Name
+              </label>
+              <input
+                id="name"
+                {...register("name", { required: true })}
+                placeholder="Name"
+                className="p-2 w-full border rounded-md focus:outline-none"
+              />
+              {errors.name && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.name.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <input
+                id="email"
+                {...register("email", { required: true })}
+                type="email"
+                placeholder="Email"
+                className="p-2 w-full border rounded-md focus:outline-none"
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
           </div>
-          <div>
+          <div className="grid lg:grid-cols-2 gap-6 mt-4">
+            <div>
+              <label
+                htmlFor="date"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Date
+              </label>
+              <input
+                id="date"
+                {...register("date", { required: true })}
+                type="date"
+                className="p-2 w-full border rounded-md focus:outline-none"
+              />
+              {errors.date && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.date.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Phone
+              </label>
+              <input
+                id="phone"
+                {...register("phone", { required: true })}
+                placeholder="Phone"
+                className="p-2 w-full border rounded-md focus:outline-none"
+              />
+              {errors.phone && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.phone.message}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="mt-6">
             <label
-              htmlFor="email"
+              htmlFor="address"
               className="block text-sm font-medium text-gray-700"
             >
-              Email
+              Address
             </label>
             <input
-              id="email"
-              {...register("email", { required: true })}
-              type="email"
-              placeholder="Email"
+              id="address"
+              {...register("address", { required: true })}
+              placeholder="Address"
               className="p-2 w-full border rounded-md focus:outline-none"
             />
-            {errors.email && (
+            {errors.address && (
               <p className="text-red-500 text-sm mt-1">
-                {errors.email.message}
+                {errors.address.message}
               </p>
             )}
           </div>
-        </div>
-        <div className="grid lg:grid-cols-2 gap-6 mt-4">
-          <div>
+          <div className="mt-6">
             <label
-              htmlFor="date"
+              htmlFor="price"
               className="block text-sm font-medium text-gray-700"
             >
-              Date
+              Price
             </label>
             <input
-              id="date"
-              {...register("date", { required: true })}
-              type="date"
+              id="price"
+              // {...register("price", { required: true })}
+              placeholder={price}
+              value={price}
+              readOnly
               className="p-2 w-full border rounded-md focus:outline-none"
             />
-            {errors.date && (
-              <p className="text-red-500 text-sm mt-1">{errors.date.message}</p>
-            )}
-          </div>
-          <div>
-            <label
-              htmlFor="phone"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Phone
-            </label>
-            <input
-              id="phone"
-              {...register("phone", { required: true })}
-              placeholder="Phone"
-              className="p-2 w-full border rounded-md focus:outline-none"
-            />
-            {errors.phone && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.phone.message}
-              </p>
-            )}
-          </div>
-        </div>
-        <div className="mt-6">
-          <label
-            htmlFor="address"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Address
-          </label>
-          <input
-            id="address"
-            {...register("address", { required: true })}
-            placeholder="Address"
-            className="p-2 w-full border rounded-md focus:outline-none"
-          />
-          {errors.address && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.address.message}
-            </p>
-          )}
-        </div>
-        <div className="mt-6">
-          <label
-            htmlFor="price"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Price
-          </label>
-          <input
-            id="price"
-            // {...register("price", { required: true })}
-            placeholder={price}
-            value={price}
-            readOnly
-            className="p-2 w-full border rounded-md focus:outline-none"
-          />
-          {/* {errors.price && (
+            {/* {errors.price && (
             <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
           )} */}
-        </div>
-        <div className="mt-4">
-          <button
-            type="submit"
-            className="w-full bg-primary text-white py-2 rounded-md"
-          >
-            Order Confirm
-          </button>
-        </div>
-      </form>
+          </div>
+          <div className="mt-4">
+            <button
+              type="submit"
+              className="w-full bg-primary text-white py-2 rounded-md"
+            >
+              Order Confirm
+            </button>
+          </div>
+        </form>
+      ) : (
+      <h2 className="text-xl font-bold">Please Login first to see the order form</h2>
+      )}
     </div>
   );
 };
