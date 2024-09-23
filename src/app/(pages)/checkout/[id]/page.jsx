@@ -56,7 +56,7 @@ const Checkout = ({ params }) => {
     };
 
     fetchData();
-  }, [session?.data?.user?.email]);
+  }, [params.id]);
   const { _id, title, img, price, description, facility } = services;
   const {
     register,

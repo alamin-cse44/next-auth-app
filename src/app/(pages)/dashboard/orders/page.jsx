@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import DashboardLayout from "@/app/components/DashboardLayout";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 
-const page = () => {
+const Page = () => {
   const session = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [products, setProducts] = useState([]);
@@ -151,7 +151,9 @@ const page = () => {
                                   </div>
                                 </div>
                                 <div>
-                                  <div className="font-bold">{item.productName}</div>
+                                  <div className="font-bold">
+                                    {item.productName}
+                                  </div>
                                 </div>
                               </div>
                             </td>
@@ -171,4 +173,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

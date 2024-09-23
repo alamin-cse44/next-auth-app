@@ -9,7 +9,7 @@ export const metadata = {
   description: "Service Details Page",
 };
 
-const page = async ({ params }) => {
+const Page = async ({ params }) => {
   const details = await getServiceById(params.id);
   console.log("service details", details);
   const { _id, title, img, price, description, facility } = details.data;
@@ -76,7 +76,7 @@ const page = async ({ params }) => {
             <p className="text-gray-600 mt-2">
               There are many variations of passages of Lorem Ipsum available,
               but the majority have suffered alteration in some form, by
-              injected humour, or randomised words which don't look even
+              injected humour, or randomised words which do not look even
               slightly believable.
             </p>
             {/* Steps Cards */}
@@ -152,4 +152,4 @@ const page = async ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

@@ -12,7 +12,7 @@ const Footer = () => {
           <Image src="/assets/logo.svg" alt="logo" height={70} width={70} />
           <p>
             Edwin Diaz is a software and web technologies engineer, a life coach
-            trainer who's also a serial entrepreneur.
+            trainer who is also a serial entrepreneur.
           </p>
           <div className="flex space-x-4 mt-4">
             <FaFacebook className="text-white hover:text-gray-400" />
