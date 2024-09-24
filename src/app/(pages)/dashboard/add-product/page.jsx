@@ -24,7 +24,13 @@ const AddProduct = () => {
       const data = await getProducts();
       setProducts(data?.data || []);
     } catch (error) {
-      console.error("Error fetching services:", error);
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Error fetching products",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
@@ -37,7 +43,7 @@ const AddProduct = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     const formData = new FormData();
-    formData.append("image", data.file[0]);
+    // formData.append("image", data.file[0]);
 
     try {
       // Upload image to ImgBB
@@ -49,7 +55,7 @@ const AddProduct = () => {
         }
       );
       const result = await response.json();
-      console.log("image response", result);
+      // console.log("image response", result);
       if (result.success) {
         const newProduct = {
           name: data.productName,
@@ -90,10 +96,10 @@ const AddProduct = () => {
             }
           });
       } else {
-        console.error("Image upload failed:", result);
+        return [];
       }
     } catch (error) {
-      console.error("Error during product add:", error);
+      return [];
     }
   };
 

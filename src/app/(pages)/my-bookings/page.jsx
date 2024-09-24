@@ -62,12 +62,16 @@ const Page = () => {
           title: "Deleted!",
           text: "Your booking has been deleted.",
           icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
         });
       } else {
         Swal.fire({
           title: "Error",
           text: "Failed to delete booking",
           icon: "error",
+          showConfirmButton: false,
+          timer: 1500,
         });
       }
     };

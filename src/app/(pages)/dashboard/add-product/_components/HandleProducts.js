@@ -40,7 +40,7 @@ const HandleProducts = ({ products, fetchData }) => {
       res = await axios.delete(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/dashboard/add-product/api/product/${id}`
       );
-      console.log("delete response ", res);
+      // console.log("delete response ", res);
       if (res.status === 200) {
         setLoading(false);
         fetchData();
@@ -93,7 +93,7 @@ const HandleProducts = ({ products, fetchData }) => {
     );
 
     fetchData();
-    console.log("Form Data:", update);
+    // console.log("Form Data:", update);
     if (update.data.data.modifiedCount > 0) {
       setLoading(false);
       Swal.fire({

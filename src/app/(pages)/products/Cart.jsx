@@ -51,6 +51,8 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
             Swal.fire({
               title: "Deleted!",
               text: "Your item deleted successfully.",
+              showConfirmButton: false,
+              timer: 1500,
               icon: "success",
             });
           },
@@ -58,6 +60,8 @@ const Cart = ({ openCanvas, toggleOffCanvas }) => {
             Swal.fire({
               title: "Deleted!",
               text: "Failed to deleted item.",
+              showConfirmButton: false,
+              timer: 1500,
               icon: "success",
             });
           },
