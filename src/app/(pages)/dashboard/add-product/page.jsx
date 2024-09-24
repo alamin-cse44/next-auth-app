@@ -24,13 +24,7 @@ const AddProduct = () => {
       const data = await getProducts();
       setProducts(data?.data || []);
     } catch (error) {
-      Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: "Error fetching products",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      return [];
     }
   };
 
