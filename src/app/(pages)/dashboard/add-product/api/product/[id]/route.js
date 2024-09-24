@@ -39,7 +39,6 @@ export const GET = async (request, { params }) => {
 export const PATCH = async (request, { params }) => {
   const db = await connectDB();
   const updateDoc = await request.json();
-  console.log("update doc: ", updateDoc);
   const productCollection = db.collection("products");
   try {
     const res = await productCollection.updateOne(

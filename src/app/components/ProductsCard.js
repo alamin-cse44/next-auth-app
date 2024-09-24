@@ -1,7 +1,6 @@
 "use client";
 
 import { useAddCartMutation } from "@/services/useCart";
-import axios from "axios";
 import { useSession } from "next-auth/react";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import Swal from "sweetalert2";
@@ -56,12 +55,9 @@ const ProductsCard = ({ product }) => {
       </figure>
 
       {/* Card Body */}
-      <div
-        onClick={() => handleAddToCart()}
-        className="card-body items-center text-center cursor-pointer"
-      >
-        <div className="absolute right-4 top-4 bg-slate-100 p-1">
-          <BsFillCartCheckFill size={40} />
+      <div className="card-body items-center text-center">
+        <div className="absolute right-4 top-4 bg-slate-100 p-1 cursor-pointer">
+          <BsFillCartCheckFill onClick={() => handleAddToCart()} size={40} />
         </div>
         {/* Star Rating */}
         <div className="rating">

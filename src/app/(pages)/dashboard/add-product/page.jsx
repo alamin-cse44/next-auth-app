@@ -24,7 +24,7 @@ const AddProduct = () => {
       const data = await getProducts();
       setProducts(data?.data || []);
     } catch (error) {
-      return [];
+      setProducts([]);
     }
   };
 
