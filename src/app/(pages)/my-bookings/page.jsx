@@ -105,8 +105,8 @@ const Page = () => {
       }
     );
 
-    fetchData();
     console.log("Form Data:", update);
+    fetchData();
     if (update.data.data.modifiedCount > 0) {
       Swal.fire({
         position: "top-end",

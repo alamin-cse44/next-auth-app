@@ -92,9 +92,9 @@ const HandleProducts = ({ products, fetchData }) => {
       }
     );
 
-    fetchData();
     // console.log("Form Data:", update);
     if (update.data.data.modifiedCount > 0) {
+      fetchData();
       setLoading(false);
       Swal.fire({
         position: "top-end",

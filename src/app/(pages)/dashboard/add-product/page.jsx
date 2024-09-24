@@ -24,7 +24,7 @@ const AddProduct = () => {
       const data = await getProducts();
       setProducts(data?.data || []);
     } catch (error) {
-      setProducts([]);
+      console.error("Error fetching products:", error);
     }
   };
 
@@ -49,7 +49,7 @@ const AddProduct = () => {
         }
       );
       const result = await response.json();
-      // console.log("image response", result);
+      console.log("image response", result);
       if (result.success) {
         const newProduct = {
           name: data.productName,
@@ -89,11 +89,15 @@ const AddProduct = () => {
               });
             }
           });
-      } else {
-        return [];
       }
     } catch (error) {
-      return [];
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Something went wrong!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
