@@ -18,6 +18,11 @@ const AddProduct = () => {
   const [isOffer, setIsOffer] = useState(false);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [openCanvas, setOpenCanvas] = useState(false);
+
+  const toggleOffCanvas = () => {
+    setOpenCanvas(!openCanvas);
+  };
 
   const fetchData = async () => {
     try {
@@ -103,103 +108,145 @@ const AddProduct = () => {
 
   return (
     <DashboardLayout>
-      <div className="">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 bg-slate-50 shadow-md rounded p-6"
+      <div className="h-screen">
+        <button
+          onClick={toggleOffCanvas}
+          className="cursor-pointer flex btn btn-primary"
         >
-          <h1 className="text-2xl font-bold mb-4">Add Product</h1>
-          {/* Product Name */}
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Product Name
-            </label>
-            <input
-              type="text"
-              {...register("productName", {
-                required: "Product Name is required",
-              })}
-              className="input input-bordered w-full"
-            />
-            {errors.productName && (
-              <p className="text-red-500 text-sm">
-                {errors.productName.message}
-              </p>
-            )}
+          +Add Product
+        </button>
+        {/* Off-canvas overlay */}
+        <div
+          className={`fixed inset-0 z-40 transition-opacity bg-black bg-opacity-50 ${
+            openCanvas ? "block" : "hidden"
+          }`}
+          onClick={toggleOffCanvas} // Click outside to close the off-canvas
+        ></div>
+
+        {/* Off-canvas content (Right side) */}
+        <div
+          className={`fixed top-0 right-0 z-50 w-96 h-full bg-white shadow-lg transform transition-transform ease-in-out duration-300 ${
+            openCanvas ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          {/* Close button */}
+          <div className="flex items-center justify-between p-2">
+            <h2 className="text-xl font-bold "></h2>
+            <button
+              className="btn btn-sm btn-primary "
+              onClick={toggleOffCanvas}
+            >
+              Close
+            </button>
           </div>
 
-          {/* Product Image */}
-          <div className="mb-4 relative">
-            <label htmlFor="file" className="block mb-1">
-              Product picture
-            </label>
-            <input
-              id="file"
-              name="file"
-              type="file"
-              {...register("file", { required: "Picture is required" })}
-              className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            />
-            {errors.file && (
-              <p className="text-red-500 text-sm">{errors.file.message}</p>
-            )}
-          </div>
+          <div className="divider p-0"></div>
 
-          {/* Product Price */}
-          <div>
-            <label className="block text-sm font-medium mb-1">Price</label>
-            <input
-              type="number"
-              {...register("price", {
-                required: "Price is required",
-                min: { value: 1, message: "Price must be at least 1" },
-              })}
-              className="input input-bordered w-full"
-            />
-            {errors.price && (
-              <p className="text-red-500 text-sm">{errors.price.message}</p>
-            )}
-          </div>
+          {/* Off-canvas content, scrollable */}
+          <div className="px-4 overflow-y-auto h-[calc(100vh-50px)] relative">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-4 bg-slate-50 shadow-md rounded p-6"
+            >
+              <h1 className="text-2xl font-bold mb-4">Add Product</h1>
+              {/* Product Name */}
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Product Name
+                </label>
+                <input
+                  type="text"
+                  {...register("productName", {
+                    required: "Product Name is required",
+                  })}
+                  className="input input-bordered w-full"
+                />
+                {errors.productName && (
+                  <p className="text-red-500 text-sm">
+                    {errors.productName.message}
+                  </p>
+                )}
+              </div>
 
-          {/* Offer Checkbox */}
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="offer"
-              onChange={(e) => setIsOffer(e.target.checked)}
-              className="checkbox checkbox-primary"
-            />
-            <label htmlFor="offer" className="ml-2">
-              This product has an offer
-            </label>
-          </div>
+              {/* Product Image */}
+              <div className="mb-4 relative">
+                <label htmlFor="file" className="block mb-1">
+                  Product picture
+                </label>
+                <input
+                  id="file"
+                  name="file"
+                  type="file"
+                  {...register("file", { required: "Picture is required" })}
+                  className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                />
+                {errors.file && (
+                  <p className="text-red-500 text-sm">{errors.file.message}</p>
+                )}
+              </div>
 
-          {/* Offer Percentage (Only visible if the offer is checked) */}
-          {isOffer && (
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Offer Percentage
-              </label>
-              <input
-                type="number"
-                {...register("offer", {
-                  required: isOffer ? "Offer percentage is required" : false,
-                  min: { value: 1, message: "Offer must be at least 1%" },
-                  max: { value: 100, message: "Offer can't exceed 100%" },
-                })}
-                className="input input-bordered w-full"
-              />
-              {errors.offer && (
-                <p className="text-red-500 text-sm">{errors.offer.message}</p>
+              {/* Product Price */}
+              <div>
+                <label className="block text-sm font-medium mb-1">Price</label>
+                <input
+                  type="number"
+                  {...register("price", {
+                    required: "Price is required",
+                    min: { value: 1, message: "Price must be at least 1" },
+                  })}
+                  className="input input-bordered w-full"
+                />
+                {errors.price && (
+                  <p className="text-red-500 text-sm">{errors.price.message}</p>
+                )}
+              </div>
+
+              {/* Offer Checkbox */}
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="offer"
+                  onChange={(e) => setIsOffer(e.target.checked)}
+                  className="checkbox checkbox-primary"
+                />
+                <label htmlFor="offer" className="ml-2">
+                  This product has an offer
+                </label>
+              </div>
+
+              {/* Offer Percentage (Only visible if the offer is checked) */}
+              {isOffer && (
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Offer Percentage
+                  </label>
+                  <input
+                    type="number"
+                    {...register("offer", {
+                      required: isOffer
+                        ? "Offer percentage is required"
+                        : false,
+                      min: { value: 1, message: "Offer must be at least 1%" },
+                      max: { value: 100, message: "Offer can't exceed 100%" },
+                    })}
+                    className="input input-bordered w-full"
+                  />
+                  {errors.offer && (
+                    <p className="text-red-500 text-sm">
+                      {errors.offer.message}
+                    </p>
+                  )}
+                </div>
               )}
-            </div>
-          )}
 
-          {/* Submit Button */}
-          <button type="submit" className="btn btn-primary">
-            {loading ? "Loading..." : "Add Product"}
-          </button>
-        </form>
+              {/* Submit Button */}
+              <button type="submit" className="btn btn-primary">
+                {loading ? "Loading..." : "Add Product"}
+              </button>
+            </form>
+          </div>
+        </div>
+
         <HandleProducts products={products} fetchData={fetchData} />
       </div>
     </DashboardLayout>
