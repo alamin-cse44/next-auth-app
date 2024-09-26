@@ -42,7 +42,7 @@ const AddProduct = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     const formData = new FormData();
-    // formData.append("image", data.file[0]);
+    formData.append("image", data.file[0]);
 
     try {
       // Upload image to ImgBB
